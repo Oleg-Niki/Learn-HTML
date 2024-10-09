@@ -3,42 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
+    <title>Oleg Nikitashin - Personal Website</title>
     <style>
-        body, html {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            height: 100%;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url('background.jpg'); /* Background image */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            color: #333;
         }
-
-        /* Style for the button */
-        .email-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            font-family: Arial, sans-serif;
-            background-color: #4CAF50; /* Green background */
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        header {
+            background-color: #002b36;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #073642;
+        }
+        nav a {
+            color: #ffffff;
             text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
         }
-
-        .email-button:hover {
-            background-color: #45a049; /* Slightly darker green on hover */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .about-me, .gallery {
+            margin-bottom: 40px;
+        }
+        .about-me h2, .gallery h2 {
+            text-align: center;
+            color: #268bd2;
+        }
+        .about-me p {
+            font-size: 1.1em;
+            line-height: 1.6em;
+        }
+        .gallery img {
+            width: 30%;
+            margin: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .contact {
+            text-align: center;
+            padding: 20px;
+            background-color: #002b36;
+            color: #ffffff;
+        }
+        .contact button {
+            padding: 10px 20px;
+            background-color: #268bd2;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+        .contact button:hover {
+            background-color: #005f87;
+        }
+        /* CSS Animation Example */
+        .animation-section {
+            text-align: center;
+            padding: 40px;
+        }
+        .gear {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 6px solid #268bd2;
+            border-radius: 50%;
+            position: relative;
+            animation: spin 5s linear infinite;
+        }
+        .gear:before, .gear:after {
+            content: '';
+            position: absolute;
+            background-color: #268bd2;
+            width: 8px;
+            height: 20px;
+        }
+        .gear:before {
+            top: -10px;
+            left: 21px;
+        }
+        .gear:after {
+            left: 21px;
+            bottom: -10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Button with a link to your email -->
-    <a href="mailto:nikitashin.ov@gmail.com" class="email-button">Contact Me</a>
+
+<header>
+    <h1>Oleg Nikitashin</h1>
+    <p>International Student | Engineering & Computer Science Enthusiast</p>
+</header>
+
+<nav>
+    <a href="#about-me">About Me</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+</nav>
+
+<div class="container">
+    <section id="about-me" class="about-me">
+        <h2>About Me</h2>
+        <p>
+            My name is Oleg Nikitashin, and I am currently an international student at the College of San Mateo, USA.
+            My academic goal is to earn a STEM degree that bridges the fields of Mechanical Engineering and Computer Science.
+            I hold a Bachelor's degree in Computer Science specializing in Local Area Networks Hardware and a Master's degree
+            in Computer Science focusing on Software in Economics. I am passionate about leveraging my skills to develop innovative
+            solutions that combine hardware and software.
+        </p>
+    </section>
+
+    <section id="gallery" class="gallery">
+        <h2>Gallery</h2>
+        <!-- Replace with your images -->
+        <div style="text-align: center;">
+            <img src="your-image1.jpg" alt="Project Image 1">
+            <img src="your-image2.jpg" alt="Project Image 2">
+            <img src="your-image3.jpg" alt="Project Image 3">
+        </div>
+    </section>
+
+    <section class="animation-section">
+        <h2>Interactive Engineering Animation</h2>
+        <div class="gear"></div>
+    </section>
+</div>
+
+<footer class="contact" id="contact">
+    <h2>Contact Me</h2>
+    <button onclick="window.location.href='mailto:oleg@nikitashin.com';">Send me an Email</button>
+</footer>
+
 </body>
 </html>
