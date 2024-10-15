@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decadentdoggy | Luxury Dog Collars</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Decadentdoggy</h1>
+        <p>Email us: <a href="mailto:woof@decadentdoggy.com">woof@decadentdoggy.com</a></p>
+        <div class="logo">
+            <img src="images/pomeranian-logo.png" alt="Decadentdoggy Logo">
+        </div>
+    </header>
+
+    <section class="filters">
+        <h2>Filter by:</h2>
+        <label for="size-filter">Size:</label>
+        <select id="size-filter" onchange="filterProducts()">
+            <option value="all">All</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+        </select>
+
+        <label for="color-filter">Color:</label>
+        <select id="color-filter" onchange="filterProducts()">
+            <option value="all">All</option>
+            <option value="pink">Pink</option>
+            <option value="blue">Blue</option>
+            <option value="red">Red</option>
+        </select>
+
+        <label for="crystal-filter">Type of Crystals:</label>
+        <select id="crystal-filter" onchange="filterProducts()">
+            <option value="all">All</option>
+            <option value="swarovski">Swarovski</option>
+            <option value="diamond">Diamond</option>
+        </select>
+    </section>
+
+    <section id="product-list">
+        <h2>Our Products</h2>
+        <div class="product" data-size="small" data-color="pink" data-crystal="swarovski">
+            <img src="images/product1.jpg" alt="Luxury Pink Collar with Swarovski Crystals">
+            <h3>Luxury Pink Collar with Swarovski Crystals</h3>
+            <p>$120</p>
+            <button onclick="addToCart('Luxury Pink Collar')">Add to Cart</button>
+        </div>
+
+        <div class="product" data-size="large" data-color="blue" data-crystal="diamond">
+            <img src="images/product2.jpg" alt="Blue Collar with Diamond Studs">
+            <h3>Blue Collar with Diamond Studs</h3>
+            <p>$150</p>
+            <button onclick="addToCart('Blue Collar')">Add to Cart</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Decadentdoggy. All Rights Reserved.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
