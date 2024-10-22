@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSM Robotics Club</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            scroll-behavior: smooth; /* Enables smooth scrolling */
+        }
+
+        header {
+            background-color: #004aad;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin-right: 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+        }
+
+        nav ul li a:hover {
+            background-color: #00337a;
+            border-radius: 5px;
+        }
+
+        section {
+            padding: 80px 20px;
+            text-align: center;
+            margin-top: 60px; /* Offset for fixed header */
+        }
+
+        .project-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .project-card {
+            width: 300px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #004aad;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #004aad;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #00337a;
+        }
+
+        /* Calendar Styles */
+        #calendar {
+            text-align: left;
+            padding: 20px;
+        }
+
+        #calendar div {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #004aad;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header with Navigation -->
+    <header>
+        <h1>CSM Robotics Club</h1>
+        <nav>
+            <ul>
+                <li><a href="#landing">Home</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#join">Join</a></li>
+                <li><a href="#sponsorship">Sponsorship</a></li>
+                <li><a href="#members">Members</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Landing Section -->
+    <section id="landing">
+        <h2>Our Mission & Goals</h2>
+        <p>At the CSM Robotics Club, we aim to inspire innovation and collaboration through hands-on robotics projects, workshops, and competitions. Join us in shaping the future!</p>
+        <a href="#join" class="button">Join Now</a>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2>Featured Projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <img src="project1.png" alt="Autonomous Rover" style="width:100%;">
+                <h3>Autonomous Rover</h3>
+                <p>Our latest robot capable of navigating complex environments.</p>
+                <a href="#" class="button">Learn More</a>
+            </div>
+            <div class="project-card">
+                <img src="project2.png" alt="Robotic Arm" style="width:100%;">
+                <h3>Robotic Arm</h3>
+                <p>A precise and powerful arm designed for automation.</p>
+                <a href="#" class="button">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events">
+        <h2>Upcoming Events</h2>
+        <div id="calendar"></div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog">
+        <h2>Latest Blog Posts</h2>
+        <article>
+            <h3>CSM Robotics Wins Regional Competition!</h3>
+            <p>Our team took home first place at the National Robotics Competition with our cutting-edge autonomous vehicle.</p>
+            <a href="#" class="button">Read More</a>
+        </article>
+    </section>
+
+    <!-- Resource Library Section -->
+    <section id="resources">
+        <h2>Resource Library</h2>
+        <p>Explore our library of tutorials, robotics guides, and learning resources.</p>
+        <a href="#" class="button">Browse Resources</a>
+    </section>
+
+    <!-- Join the Club Section -->
+    <section id="join">
+        <h2>Join the Club</h2>
+        <p>Are you ready to dive into robotics and innovation? Join the CSM Robotics Club today!</p>
+        <a href="#" class="button">Sign Up Now</a>
+    </section>
+
+    <!-- Sponsorship Section -->
+    <section id="sponsorship">
+        <h2>Sponsorship & Donations</h2>
+        <p>Support our club and help us achieve our goals through sponsorship and donations.</p>
+        <a href="#" class="button">Become a Sponsor</a>
+    </section>
+
+    <!-- Member Spotlights Section -->
+    <section id="members">
+        <h2>Member Spotlights</h2>
+        <p>Meet some of our standout members who have contributed to our projects and competitions.</p>
+        <a href="#" class="button">View Members</a>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form action="submit_form.php" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 CSM Robotics Club. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Calendar Functionality
+        const calendar = document.getElementById("calendar");
+
+        function displayEvents() {
+            const events = [
+                { date: "2024-02-25", name: "Robotics Workshop" },
+                { date: "2024-03-10", name: "National Robotics Competition" },
+            ];
+
+            events.forEach(event => {
+                const eventElement = document.createElement("div");
+                eventElement.textContent = `${event.date} - ${event.name}`;
+                calendar.appendChild(eventElement);
+            });
+        }
+
+        displayEvents();
+    </script>
+
+</body>
+
+</html>
