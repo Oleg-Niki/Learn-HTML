@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #268bd2;
+        }
+        .choices {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        .choices button {
+            background-color: #268bd2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        .choices button:hover {
+            background-color: #005f87;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Rock, Paper, Scissors</h1>
+<p>Choose your weapon!</p>
+
+<div class="choices">
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
+</div>
+
+<p class="result" id="resultText"></p>
+
+<script>
+    const choices = ["rock", "paper", "scissors"];
+    const buttons = document.querySelectorAll("button");
+    const resultText = document.getElementById("resultText");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            const userChoice = button.id;
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            const winner = getWinner(userChoice, computerChoice);
+            displayResult(userChoice, computerChoice, winner);
+        });
+    });
+
+    function getWinner(userChoice, computerChoice) {
+        if (userChoice === computerChoice) {
+            return "draw";
+        }
+        if (
+            (userChoice === "rock" && computerChoice === "scissors") ||
+            (userChoice === "scissors" && computerChoice === "paper") ||
+            (userChoice === "paper" && computerChoice === "rock")
+        ) {
+            return "user";
+        }
+        return "computer";
+    }
+
+    function displayResult(userChoice, computerChoice, winner) {
+        if (winner === "draw") {
+            resultText.textContent = `It's a draw! Both chose ${userChoice}.`;
+        } else if (winner === "user") {
+            resultText.textContent = `You win! ${userChoice} beats ${computerChoice}.`;
+        } else {
+            resultText.textContent = `You lose! ${computerChoice} beats ${userChoice}.`;
+        }
+    }
+</script>
+
+</body>
+</html>
