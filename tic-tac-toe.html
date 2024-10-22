@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            gap: 5px;
+            justify-content: center;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #268bd2;
+            color: white;
+            font-size: 2em;
+            text-align: center;
+            line-height: 100px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic-Tac-Toe</h1>
+    <div class="board">
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+    </div>
+    <h2 id="status"></h2>
+    <button onclick="restartGame()">Restart Game</button>
+
+    <script>
+        const cells = document.querySelectorAll('[data-cell]');
+        const statusText = document.getElementById('status');
+        let isCircleTurn = false;
+
+        cells.forEach(cell => {
+            cell.addEventListener('click', handleClick, { once: true });
+        });
+
+        function handleClick(e) {
+            const cell = e.target;
+            const currentClass = isCircleTurn ? 'O' : 'X';
+            cell.textContent = currentClass;
+            if (checkWin(currentClass)) {
+                statusText.textContent = `${currentClass} Wins!`;
+            } else if ([...cells].every(cell => cell.textContent)) {
+                statusText.textContent = 'Draw!';
+            } else {
+                isCircleTurn = !isCircleTurn;
+            }
+        }
+
+        function checkWin(currentClass) {
+            const winningCombinations = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+            return winningCombinations.some(combination => {
+                return combination.every(index => {
+                    return cells[index].textContent === currentClass;
+                });
+            });
+        }
+
+        function restartGame() {
+            isCircleTurn = false;
+            statusText.textContent = '';
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.removeEventListener('click', handleClick);
+                cell.addEventListener('click', handleClick, { once: true });
+            });
+        }
+    </script>
+</body>
+</html>
