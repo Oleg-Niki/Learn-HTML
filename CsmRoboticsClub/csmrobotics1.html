@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSM Robotics Club</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Landing Page -->
+<header>
+    <h1>Welcome to CSM Robotics Club</h1>
+    <p>Building the Future, One Robot at a Time</p>
+    <a href="#join">Join the Club</a>
+</header>
+
+<!-- Events Calendar -->
+<section id="events">
+    <h2>Upcoming Events</h2>
+    <div id="calendar"></div>
+    <script src="calendar.js"></script>
+</section>
+
+<!-- Project Showcases -->
+<section id="projects">
+    <h2>Our Projects</h2>
+    <div class="project-grid">
+        <!-- Example project card -->
+        <div class="project-card">
+            <img src="project1.jpg" alt="Project 1">
+            <h3>Autonomous Rover</h3>
+            <p>Our latest robot capable of navigating rough terrain.</p>
+            <a href="project1.html">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<!-- Blog or News Section -->
+<section id="news">
+    <h2>Latest News</h2>
+    <div class="blog-post">
+        <h3>Competition Win!</h3>
+        <p>CSM Robotics Club wins the regional Time Attack Robotics Competition.</p>
+        <a href="news1.html">Read More</a>
+    </div>
+</section>
+
+<!-- Contact Form -->
+<section id="contact">
+    <h2>Contact Us</h2>
+    <form action="submit_form.php" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        
+        <label for="message">Message:</label>
+        <textarea id="message" name="message"></textarea>
+        
+        <button type="submit">Submit</button>
+    </form>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 CSM Robotics Club. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
