@@ -149,6 +149,30 @@
                 width: 80%;
                 margin: 10px auto;
             }
+            /* Dynamic Visualizer Section */
+.dynamic-visualizer {
+    text-align: center;
+    padding: 40px;
+    position: relative;
+    background-color: #002b36;
+    color: #ffffff;
+}
+
+.dynamic-visualizer p {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    color: #93a1a1;
+}
+
+/* Canvas for Particles */
+canvas {
+    display: block;
+    margin: 0 auto;
+    background: #073642;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
         }
     </style>
 </head>
@@ -183,16 +207,96 @@
         </div>
     </section>
 
-    <section class="animation-section">
-        <h2>Interactive Engineering</h2>
-        <div class="gear"></div>
-    </section>
+   <section class="dynamic-visualizer">
+    <h2>Dynamic Visualizer</h2>
+    <p>Explore the mesmerizing flow of particles, representing the fusion of engineering and creativity.</p>
+    <canvas id="particleCanvas"></canvas>
+</section>
+
 </div>
 
 <footer id="contact">
     <h2>Contact Me</h2>
     <button onclick="window.location.href='mailto:oleg@nikitashin.com';">Send me an Email</button>
 </footer>
+<script>
+    const canvas = document.getElementById("particleCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Set canvas dimensions
+    canvas.width = window.innerWidth * 0.8;
+    canvas.height = 400;
+
+    let particlesArray = [];
+    const numberOfParticles = 100;
+
+    // Particle Constructor
+    class Particle {
+        constructor(x, y, directionX, directionY, size, color) {
+            this.x = x;
+            this.y = y;
+            this.directionX = directionX;
+            this.directionY = directionY;
+            this.size = size;
+            this.color = color;
+        }
+
+        // Draw Particle
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+
+        // Update Particle Position
+        update() {
+            if (this.x + this.size > canvas.width || this.x - this.size < 0) {
+                this.directionX = -this.directionX;
+            }
+            if (this.y + this.size > canvas.height || this.y - this.size < 0) {
+                this.directionY = -this.directionY;
+            }
+            this.x += this.directionX;
+            this.y += this.directionY;
+
+            this.draw();
+        }
+    }
+
+    // Initialize Particles
+    function init() {
+        particlesArray = [];
+        for (let i = 0; i < numberOfParticles; i++) {
+            let size = Math.random() * 5 + 2;
+            let x = Math.random() * (canvas.width - size * 2) + size;
+            let y = Math.random() * (canvas.height - size * 2) + size;
+            let directionX = Math.random() * 2 - 1;
+            let directionY = Math.random() * 2 - 1;
+            let color = "#268bd2";
+            particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+        }
+    }
+
+    // Animate Particles
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+        }
+        requestAnimationFrame(animate);
+    }
+
+    // Resize Canvas on Window Resize
+    window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth * 0.8;
+        canvas.height = 400;
+        init();
+    });
+
+    init();
+    animate();
+</script>
 
 </body>
 </html>
