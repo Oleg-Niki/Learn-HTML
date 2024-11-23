@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Oleg Nikitashin Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Link to the CSS file -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Link to the JavaScript file -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Desktop Background -->
+  <div id="desktop">
+    <!-- Interactive Desktop Icons -->
+    <a href="#" class="desktop-icon" onclick="navigate('about')">
+      <img src="about-icon.png" alt="About Me Icon">
+      <p>About Me</p>
+    </a>
+    <a href="#" class="desktop-icon" onclick="navigate('gallery')">
+      <img src="gallery-icon.png" alt="Project Gallery Icon">
+      <p>Project Gallery</p>
+    </a>
+    <a href="#" class="desktop-icon" onclick="navigate('contact')">
+      <img src="contact-icon.png" alt="Contact Icon">
+      <p>Contact</p>
+    </a>
+    <a href="#" class="desktop-icon" onclick="toggleGames()">
+      <img src="games-icon.png" alt="Tired Icon">
+      <p>Tired?</p>
+    </a>
+  </div>
+
+  <div id="taskbar">
+  <!-- Start Button -->
+  <div id="start-button-container">
+    <button id="start-button" onclick="toggleStartMenu()"></button>
+  </div>
+
+  <!-- Minimized Windows Area -->
+  <div id="minimized-windows"></div>
+
+  <!-- Taskbar Clock -->
+  <div id="taskbar-clock">12:00 PM</div>
+</div>
+
+  <!-- Start Menu -->
+  <div id="start-menu" class="hidden">
+    <ul>
+      <li><button onclick="navigate('about')">About Me</button></li>
+      <li><button onclick="navigate('gallery')">Project Gallery</button></li>
+      <li><button onclick="navigate('contact')">Contact</button></li>
+      <li><button onclick="toggleGames()">Tired? (Games)</button></li>
+    </ul>
+  </div>
+
+  <!-- Main Content Area -->
+<section id="main-content" class="hidden">
+  <div id="window-controls">
+    <button id="minimize" onclick="minimizeWindow()">_</button>
+	<button id="maximize" onclick="toggleMaximize()">□</button>
+    <button id="close" onclick="closeWindow()">X</button>
+  </div>
+  <div id="window-content">
+    <!-- Content will load here dynamically -->
+  </div>
+</section>
+
+  <!-- Popup Games Menu -->
+  <div id="popup-games" class="hidden">
+    <h3>Games</h3>
+    <ul>
+      <li><a href="https://playsnake.org" target="_blank">Play Snake</a></li>
+      <li><a href="https://tetris.com/play-tetris" target="_blank">Play Tetris</a></li>
+      <li><a href="https://chrome-dino.com/" target="_blank">Dino Game</a></li>
+    </ul>
+    <button onclick="toggleGames()">Close</button>
+  </div>
+</body>
+</html>
