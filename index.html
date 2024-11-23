@@ -1,370 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oleg Nikitashin | Engineering Portfolio</title>
-	<link rel="icon" href="icon-cpu-small.png" type="image/png">
-    <style>
-        /* Global Styling */
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #eef1f5;
-            color: #333;
-        }
-
-        h1, h2, h3 {
-            margin: 0;
-            padding: 0;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(90deg, #002b36, #073642);
-            color: #ffffff;
-            text-align: center;
-            padding: 30px 0;
-        }
-
-        header h1 {
-            font-size: 3em;
-        }
-
-        header p {
-            font-size: 1.2em;
-            font-style: italic;
-            color: #93a1a1;
-        }
-
-        /* Navigation */
-        nav {
-            background-color: #073642;
-            padding: 15px 0;
-            text-align: center;
-        }
-
-        nav a {
-            color: #ffffff;
-            margin: 0 15px;
-            font-size: 1em;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: #268bd2;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-
-        section {
-            margin-bottom: 40px;
-        }
-
-        section h2 {
-            text-align: center;
-            color: #073642;
-            margin-bottom: 20px;
-            font-size: 2em;
-        }
-
-        /* About Me */
-        .about-me p {
-            font-size: 1.2em;
-            line-height: 1.8em;
-            text-align: justify;
-        }
-
-        /* Gallery */
-        .gallery img {
-            width: 30%;
-            margin: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .gallery img:hover {
-            transform: scale(1.05);
-        }
-
-        .gallery div {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        /* Engine Illustration Section */
-        .engine-illustration {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 40px auto;
-            text-align: center;
-            background-color: #002b36;
-            color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            max-width: 900px;
-        }
-
-        .engine-illustration h2 {
-            margin-bottom: 10px;
-        }
-
-        .engine-illustration p {
-            margin-bottom: 20px;
-            font-size: 1.2em;
-            color: #93a1a1;
-        }
-
-        /* Canvas */
-        #engineCanvas {
-            width: 100%;
-            max-width: 650px;
-            aspect-ratio: 16 / 9; /* Improved proportions */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Footer */
-        footer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background-color: #002b36;
-            color: #ffffff;
-            text-align: center;
-        }
-
-        footer h2 {
-            margin: 0;
-            font-size: 1.5em;
-        }
-
-        footer button {
-            padding: 12px 25px;
-            background-color: #268bd2;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.2em;
-            margin-top: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        footer button:hover {
-            background-color: #005f87;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Oleg Nikitashin Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Link to the CSS file -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Link to the JavaScript file -->
+  <script src="script.js" defer></script>
 </head>
 <body>
+  <!-- Desktop Background -->
+  <div id="desktop">
+    <!-- Interactive Desktop Icons -->
+    <a href="#" class="desktop-icon" onclick="navigate('about')">
+      <img src="about-icon.png" alt="About Me Icon">
+      <p>About Me</p>
+    </a>
+    <a href="#" class="desktop-icon" onclick="navigate('gallery')">
+      <img src="gallery-icon.png" alt="Project Gallery Icon">
+      <p>Project Gallery</p>
+    </a>
+    <a href="#" class="desktop-icon" onclick="navigate('contact')">
+      <img src="contact-icon.png" alt="Contact Icon">
+      <p>Contact</p>
+    </a>
+    <a href="#" class="desktop-icon" onclick="toggleGames()">
+      <img src="games-icon.png" alt="Tired Icon">
+      <p>Tired?</p>
+    </a>
+  </div>
 
-<header>
-    <h1>Oleg Nikitashin</h1>
-    <p>Engineering | Computer Science | Innovation</p>
-</header>
+  <div id="taskbar">
+  <!-- Start Button -->
+  <div id="start-button-container">
+    <button id="start-button" onclick="toggleStartMenu()"></button>
+  </div>
 
-<nav>
-    <a href="#about-me">About Me</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#contact">Contact</a>
-</nav>
+  <!-- Minimized Windows Area -->
+  <div id="minimized-windows"></div>
 
-<div class="container">
-    <section id="about-me" class="about-me">
-        <h2>About Me</h2>
-        <p>
-            Oleg Nikitashin is a project engineer and second-year engineering student at the College of San Mateo. With expertise in automotive engineering, business management, and IT systems, Oleg combines technical and creative skills to design innovative solutions. His accomplishments include founding an auto parts business, managing engineering projects, and winning championships in Time Attack and Rally racing.
-        </p>
-    </section>
-
-    <section id="gallery" class="gallery">
-        <h2>Project Gallery</h2>
-        <div>
-            <img src="your-image2.jpg" alt="Project 1">
-            <img src="your-image1.jpg" alt="Project 2">
-            <img src="your-image3.jpg" alt="Project 3">
-        </div>
-    </section>
-
-    <section class="engine-illustration">
-       
-        <canvas id="engineCanvas"></canvas>
-    </section>
+  <!-- Taskbar Clock -->
+  <div id="taskbar-clock">12:00 PM</div>
 </div>
 
-<footer id="contact">
-    <h2>Contact Me</h2>
-    <button onclick="window.location.href='mailto:oleg@nikitashin.com';">Send me an Email</button>
-</footer>
+  <!-- Start Menu -->
+  <div id="start-menu" class="hidden">
+    <ul>
+      <li><button onclick="navigate('about')">About Me</button></li>
+      <li><button onclick="navigate('gallery')">Project Gallery</button></li>
+      <li><button onclick="navigate('contact')">Contact</button></li>
+      <li><button onclick="toggleGames()">Tired? (Games)</button></li>
+    </ul>
+  </div>
 
+  <!-- Main Content Area -->
+<section id="main-content" class="hidden">
+  <div id="window-controls">
+    <button id="minimize" onclick="minimizeWindow()">_</button>
+	<button id="maximize" onclick="toggleMaximize()">□</button>
+    <button id="close" onclick="closeWindow()">X</button>
+  </div>
+  <div id="window-content">
+    <!-- Content will load here dynamically -->
+  </div>
+</section>
 
-<script>
-    const canvas = document.getElementById("engineCanvas");
-    const ctx = canvas.getContext("2d");
-
-    // Resize canvas to maintain 16:9 aspect ratio
-    function resizeCanvas() {
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientWidth * 0.5625;
-    }
-    resizeCanvas();
-
-    // Engine parameters and initial setup
-    let centerX, centerY;
-    const crankRadius = 50; // Crankshaft radius
-    const rodLength = 120;  // Connecting rod length
-    const pistonWidth = 60;
-    const pistonHeight = 100;
-    const cylinderHeight = 180;
-
-    let angle = 0; // Current crankshaft angle
-    const speed = 2; // Rotation speed in degrees per frame
-
-    // Update variables based on canvas size
-    function updateVariables() {
-        centerX = canvas.width / 2;
-        centerY = canvas.height / 2 + 80;
-    }
-
-    // Function to draw a star (used for ignition spark)
-    function drawStar(cx, cy, spikes, outerRadius, innerRadius, color) {
-        let rotation = Math.PI / 2 * 3;
-        let x = cx;
-        let y = cy;
-        const step = Math.PI / spikes;
-
-        ctx.beginPath();
-        ctx.moveTo(cx, cy - outerRadius);
-
-        for (let i = 0; i < spikes; i++) {
-            x = cx + Math.cos(rotation) * outerRadius;
-            y = cy + Math.sin(rotation) * outerRadius;
-            ctx.lineTo(x, y);
-            rotation += step;
-
-            x = cx + Math.cos(rotation) * innerRadius;
-            y = cy + Math.sin(rotation) * innerRadius;
-            ctx.lineTo(x, y);
-            rotation += step;
-        }
-        ctx.lineTo(cx, cy - outerRadius);
-        ctx.closePath();
-        ctx.fillStyle = color;
-        ctx.fill();
-    }
-
-    // Function to draw the cylinder with air-cooling fins
-    function drawCylinder() {
-        const cylinderX = centerX - pistonWidth / 2 - 50; // Left side of the cylinder
-        const cylinderY = centerY - cylinderHeight - 40;  // Top side of the cylinder
-        const cylinderWidth = pistonWidth + 100;         // Width of the cylinder
-        const coolingFinSpacing = 10;                   // Spacing between cooling fins
-
-        // Draw the main cylinder body
-        ctx.fillStyle = "#444"; // Base cylinder color
-        ctx.fillRect(cylinderX, cylinderY, cylinderWidth, cylinderHeight);
-
-        // Draw cooling fins on both sides
-        ctx.fillStyle = "#666"; // Cooling fin color
-        for (let i = 0; i < cylinderHeight; i += coolingFinSpacing) {
-            // Left-side cooling fins
-            ctx.fillRect(cylinderX - 20, cylinderY + i, 20, 5);
-            // Right-side cooling fins
-            ctx.fillRect(cylinderX + cylinderWidth, cylinderY + i, 20, 5);
-        }
-    }
-
-    // Main function to draw the engine
-    function drawEngine() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw the cylinder with cooling fins
-        drawCylinder();
-
-        // Calculate piston position
-        const crankX = centerX + crankRadius * Math.cos((angle * Math.PI) / 180);
-        const crankY = centerY + crankRadius * Math.sin((angle * Math.PI) / 180);
-        const pistonX = centerX;
-        const pistonY = crankY - Math.sqrt(rodLength ** 2 - (crankX - pistonX) ** 2);
-
-        // Draw the crankshaft
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, crankRadius, 0, Math.PI * 2);
-        ctx.fillStyle = "#555";
-        ctx.fill();
-
-        // Draw the connecting rod
-        ctx.beginPath();
-        ctx.moveTo(crankX, crankY);
-        ctx.lineTo(pistonX, pistonY);
-        ctx.strokeStyle = "#888";
-        ctx.lineWidth = 15;
-        ctx.stroke();
-
-        // Draw the piston
-        ctx.fillStyle = "#999";
-        ctx.fillRect(pistonX - pistonWidth / 2, pistonY - pistonHeight, pistonWidth, pistonHeight);
-
-        // Spark ignition (Power Stroke)
-        if (Math.abs((angle % 360) - 90) < 10) {
-            drawStar(
-                pistonX,
-                pistonY - pistonHeight - 30,
-                5,
-                20,
-                10,
-                "rgba(255, 200, 50, 0.9)"
-            );
-        }
-
-        // Air Intake
-        if (Math.abs((angle % 360) - 0) < 10) {
-            ctx.fillStyle = "rgba(100, 200, 255, 0.5)";
-            ctx.fillRect(centerX - 30, centerY - cylinderHeight - 80, 20, 60);
-        }
-
-        // Exhaust Stroke
-        if (Math.abs((angle % 360) - 270) < 10) {
-            ctx.fillStyle = "rgba(25, 25, 25, 0.5)";
-            ctx.fillRect(centerX + 10, centerY - cylinderHeight - 50, 20, 60);
-        }
-    }
-
-    // Animation loop to render engine components frame-by-frame
-    function animate() {
-        updateVariables();
-        drawEngine();
-        angle += speed; // Increment crankshaft angle
-        if (angle >= 360) angle = 0; // Reset angle after full rotation
-        requestAnimationFrame(animate); // Request next animation frame
-    }
-
-    animate(); // Start animation
-
-    // Adjust canvas size dynamically on window resize
-    window.addEventListener("resize", () => {
-        resizeCanvas();
-        updateVariables();
-        animate();
-    });
-
-</script>
+  <!-- Popup Games Menu -->
+  <div id="popup-games" class="hidden">
+    <h3>Games</h3>
+    <ul>
+      <li><a href="https://playsnake.org" target="_blank">Play Snake</a></li>
+      <li><a href="https://tetris.com/play-tetris" target="_blank">Play Tetris</a></li>
+      <li><a href="https://chrome-dino.com/" target="_blank">Dino Game</a></li>
+    </ul>
+    <button onclick="toggleGames()">Close</button>
+  </div>
 </body>
 </html>
