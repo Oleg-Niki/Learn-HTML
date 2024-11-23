@@ -3,75 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TITLE - Personal Website</title>
+    <title>Oleg Nikitashin | Engineering Portfolio</title>
     <style>
+        /* Global Styling */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            background-color: #eef1f5;
             margin: 0;
             padding: 0;
             color: #333;
         }
+        h1, h2, h3 {
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        /* Header */
         header {
-            background-color: #002b36;
+            background: linear-gradient(90deg, #002b36, #073642);
             color: #ffffff;
             text-align: center;
-            padding: 20px 0;
+            padding: 30px 0;
         }
         header h1 {
-            margin: 0;
-            font-size: 2.5em;
+            font-size: 3em;
         }
+        header p {
+            font-size: 1.2em;
+            font-style: italic;
+            color: #93a1a1;
+        }
+        /* Navigation */
         nav {
-            text-align: center;
-            padding: 15px 0;
             background-color: #073642;
+            padding: 15px 0;
+            text-align: center;
         }
         nav a {
             color: #ffffff;
-            text-decoration: none;
             margin: 0 15px;
+            font-size: 1em;
             font-weight: bold;
+            transition: color 0.3s ease;
         }
+        nav a:hover {
+            color: #268bd2;
+        }
+        /* Container */
         .container {
             max-width: 1200px;
             margin: 20px auto;
             padding: 0 20px;
         }
-        .about-me, .gallery {
+        section {
             margin-bottom: 40px;
         }
-        .about-me h2, .gallery h2 {
+        section h2 {
             text-align: center;
-            color: #268bd2;
+            color: #073642;
+            margin-bottom: 20px;
+            font-size: 2em;
         }
+        /* About Me */
         .about-me p {
-            font-size: 1.1em;
-            line-height: 1.6em;
+            font-size: 1.2em;
+            line-height: 1.8em;
+            text-align: justify;
         }
+        /* Gallery */
         .gallery img {
             width: 30%;
             margin: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
         }
-        .contact {
-            text-align: center;
-            padding: 20px;
-            background-color: #002b36;
-            color: #ffffff;
+        .gallery img:hover {
+            transform: scale(1.05);
         }
-        .contact button {
-            padding: 10px 20px;
-            background-color: #268bd2;
-            color: #ffffff;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1em;
+        .gallery div {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        .contact button:hover {
-            background-color: #005f87;
-        }
-        /* CSS Animation Example */
+        /* Interactive Section */
         .animation-section {
             text-align: center;
             padding: 40px;
@@ -82,8 +99,7 @@
             height: 50px;
             border: 6px solid #268bd2;
             border-radius: 50%;
-            position: relative;
-            animation: spin 5s linear infinite;
+            animation: spin 4s linear infinite;
         }
         .gear:before, .gear:after {
             content: '';
@@ -104,55 +120,77 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        /* Contact */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #002b36;
+            color: #ffffff;
+        }
+        footer button {
+            padding: 12px 25px;
+            background-color: #268bd2;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+        footer button:hover {
+            background-color: #005f87;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav a {
+                display: block;
+                margin: 10px 0;
+            }
+            .gallery img {
+                width: 80%;
+                margin: 10px auto;
+            }
+        }
     </style>
 </head>
 <body>
 
 <header>
     <h1>Oleg Nikitashin</h1>
-    <p>TEST TEST TEST | Engineering & Computer Science Enthusiast</p>
+    <p>Engineering | Computer Science | Innovation</p>
 </header>
-<!
-NAVIGA>
+
 <nav>
     <a href="#about-me">About Me</a>
     <a href="#gallery">Gallery</a>
     <a href="#contact">Contact</a>
     <a href="tic-tac-toe.html">Tic-Tac-Toe Game</a>
-    <a href="rock-paper-scissors.html">Rock, Paper, Scissors Game</a>
-    <a href="games.html">More Games</a>
+    <a href="rock-paper-scissors.html">Rock, Paper, Scissors</a>
 </nav>
 
 <div class="container">
     <section id="about-me" class="about-me">
         <h2>About Me</h2>
         <p>
-            Oleg Nikitashin is a project engineer and second-year engineering student at the College of San Mateo with
-extensive experience in automotive engineering and business management. He holds a Bachelor’s and Master’s degree in 
-Computer Science, specializing in IT systems and networks. Oleg co-founded a successful auto parts business and managed 
-multiple construction projects as an Engineering Manager. He has a strong background in CAD design, low-voltage electrical 
-engineering, and microcontroller-based projects (Arduino and Raspberry Pi). Additionally, he has an impressive racing 
-background, winning multiple championships in Time Attack and Rally racing.
+            Oleg Nikitashin is a project engineer and engineering student at the College of San Mateo with expertise in automotive engineering and business management. With degrees in Computer Science and a proven track record in IT, Oleg combines his skills in CAD design, microcontrollers, and sustainability projects. He has excelled in leadership roles and holds multiple racing championship titles.
         </p>
     </section>
 
     <section id="gallery" class="gallery">
-        <h2>Gallery</h2>
-        <!-- Replace with your images -->
-        <div style="text-align: center;">
-            <img src="your-image1.jpg" alt="Project Image 1">
-            <img src="your-image3.jpg" alt="Project Image 2">
-            <img src="your-image2.jpg" alt="Project Image 3">
+        <h2>Project Gallery</h2>
+        <div>
+            <img src="project1.jpg" alt="Project 1">
+            <img src="project2.jpg" alt="Project 2">
+            <img src="project3.jpg" alt="Project 3">
         </div>
     </section>
 
     <section class="animation-section">
-        <h2>Interactive Engineering Animation</h2>
+        <h2>Interactive Engineering</h2>
         <div class="gear"></div>
     </section>
 </div>
 
-<footer class="contact" id="contact">
+<footer id="contact">
     <h2>Contact Me</h2>
     <button onclick="window.location.href='mailto:oleg@nikitashin.com';">Send me an Email</button>
 </footer>
