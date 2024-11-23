@@ -149,32 +149,41 @@
                 width: 80%;
                 margin: 10px auto;
             }
-           /* Tesla Coil Visualizer Section */
-.tesla-coil-visualizer {
-    text-align: center;
-    padding: 40px;
-    position: relative;
-    background-color: #002b36;
-    color: #ffffff;
-}
+					/* Center the engine illustration in the middle of the page */
+				.engine-illustration {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					min-height: 100vh; /* Full viewport height */
+					text-align: center;
+					background-color: #002b36;
+					color: #ffffff;
+				}
 
-.tesla-coil-visualizer p {
-    margin-bottom: 20px;
-    font-size: 1.2em;
-    color: #93a1a1;
-}
+				.engine-illustration h2 {
+					margin-bottom: 10px;
+					color: #ffffff;
+				}
 
-/* Canvas for Tesla Coil */
-#teslaCanvas {
-    display: block;
-    margin: 0 auto;
-    background: #073642;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 600px;
-    height: 400px;
-}
+				.engine-illustration p {
+					margin-bottom: 20px;
+					font-size: 1.2em;
+					color: #93a1a1;
+				}
+
+				/* Canvas for Engine Animation */
+				#engineCanvas {
+					background: radial-gradient(circle, #073642, #001f29);
+					width: 100%;
+					max-width: 800px;
+					height: 600px;
+					border-radius: 10px;
+					box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+				}
+
+
+
         }
     </style>
 </head>
@@ -209,11 +218,11 @@
         </div>
     </section>
 
-  <section class="tesla-coil-visualizer">
-    <h2>Tesla Coil in Action</h2>
-    <p>Experience the electrifying brilliance of Tesla's genius!</p>
-    <canvas id="teslaCanvas"></canvas>
-</section>
+	<section class="engine-illustration">
+    <h2>4-Stroke Engine Animation</h2>
+    <p>Observe the mechanics of a 4-stroke engine in action.</p>
+    <canvas id="engineCanvas"></canvas>
+	</section>
 
 </div>
 
@@ -222,78 +231,91 @@
     <button onclick="window.location.href='mailto:oleg@nikitashin.com';">Send me an Email</button>
 </footer>
 <script>
-    const canvas = document.getElementById("teslaCanvas");
-    const ctx = canvas.getContext("2d");
+  const canvas = document.getElementById("engineCanvas");
+const ctx = canvas.getContext("2d");
 
-    // Set canvas dimensions
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+// Set canvas dimensions
+canvas.width = canvas.offsetWidth;
+canvas.height = canvas.offsetHeight;
 
-    // Tesla Coil Animation Variables
-    const coilCenterX = canvas.width / 2;
-    const coilBaseY = canvas.height - 50;
-    const arcColor = "rgba(173, 216, 230, 0.7)";
-    const sparkCount = 50;
+// Engine Variables
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2 + 100; // Adjusted for proper centering
+const crankRadius = 60; // Smaller crankshaft
+const rodLength = 160; // Connecting rod length
+const pistonWidth = 60;
+const pistonHeight = 120; // Taller piston
+const cylinderHeight = 240; // Taller cylinder for proportional scaling
 
-    function drawCoil() {
-        // Draw base
-        ctx.fillStyle = "#444";
-        ctx.fillRect(coilCenterX - 50, coilBaseY, 100, 20);
+let angle = 0; // Crankshaft angle
+const speed = 2; // Rotation speed in degrees
 
-        // Draw body
-        ctx.fillStyle = "#555";
-        ctx.fillRect(coilCenterX - 20, coilBaseY - 100, 40, 100);
+// Draw the crankshaft, rods, pistons, and cylinder
+function drawEngine() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw top
+    // Cylinder
+    ctx.fillStyle = "#444";
+    ctx.fillRect(centerX - pistonWidth / 2 - 100, centerY - cylinderHeight - 20, pistonWidth + 200, cylinderHeight);
+
+    // Piston Position
+    const crankX = centerX + crankRadius * Math.cos((angle * Math.PI) / 180);
+    const crankY = centerY + crankRadius * Math.sin((angle * Math.PI) / 180);
+    const pistonX = centerX;
+    const pistonY = crankY - Math.sqrt(rodLength ** 2 - (crankX - pistonX) ** 2);
+
+    // Crankshaft
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, crankRadius, 0, Math.PI * 2);
+    ctx.fillStyle = "#555";
+    ctx.fill();
+
+    // Connecting Rod
+    ctx.beginPath();
+    ctx.moveTo(crankX, crankY);
+    ctx.lineTo(pistonX, pistonY);
+    ctx.strokeStyle = "#888";
+    ctx.lineWidth = 10; // Thicker rod
+    ctx.stroke();
+
+    // Piston
+    ctx.fillStyle = "#999";
+    ctx.fillRect(pistonX - pistonWidth / 2, pistonY - pistonHeight, pistonWidth, pistonHeight);
+
+    // Spark Ignition (Power Stroke)
+    if (Math.abs((angle % 360) - 90) < 10) {
+        ctx.fillStyle = "rgba(255, 200, 50, 0.9)";
         ctx.beginPath();
-        ctx.arc(coilCenterX, coilBaseY - 110, 30, 0, Math.PI * 2);
-        ctx.fillStyle = "#888";
+        ctx.arc(pistonX, pistonY - pistonHeight - 30, 15, 0, Math.PI * 2); // Higher spark above the piston
         ctx.fill();
     }
 
-    function drawArc(startX, startY, endX, endY) {
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        for (let i = 0; i < 5; i++) {
-            const midX = (startX + endX) / 2 + (Math.random() - 0.5) * 20;
-            const midY = (startY + endY) / 2 + (Math.random() - 0.5) * 20;
-            ctx.lineTo(midX, midY);
-            startX = midX;
-            startY = midY;
-        }
-        ctx.lineTo(endX, endY);
-        ctx.strokeStyle = arcColor;
-        ctx.lineWidth = 2;
-        ctx.stroke();
+    // Exhaust Stroke (Exhaust lines)
+    if (Math.abs((angle % 360) - 270) < 10) {
+        ctx.fillStyle = "rgba(150, 150, 150, 0.7)";
+        ctx.fillRect(centerX - pistonWidth / 2, centerY - cylinderHeight - 60, pistonWidth, 20); // Exhaust higher above the cylinder
     }
+}
 
-    function generateArcs() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawCoil();
+// Animation Loop
+function animate() {
+    drawEngine();
+    angle += speed;
+    if (angle >= 360) angle = 0;
+    requestAnimationFrame(animate);
+}
 
-        for (let i = 0; i < sparkCount; i++) {
-            const startX = coilCenterX;
-            const startY = coilBaseY - 110;
-            const endX = coilCenterX + (Math.random() - 0.5) * 300;
-            const endY = Math.random() * (coilBaseY - 200);
-            drawArc(startX, startY, endX, endY);
-        }
-    }
+animate();
 
-    // Animation Loop
-    function animate() {
-        generateArcs();
-        requestAnimationFrame(animate);
-    }
-
+// Resize canvas dynamically
+window.addEventListener("resize", () => {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
     animate();
+});
 
-    // Resize canvas dynamically
-    window.addEventListener("resize", () => {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-        animate();
-    });
+
+
 </script>
 
 
