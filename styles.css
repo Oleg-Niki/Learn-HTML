@@ -52,7 +52,7 @@ body {
   left: 0;
   width: 100%;
   height: 50px;
-  background: linear-gradient(to bottom, #bfcde0, #9baec8);
+  background: linear-gradient(to bottom, #245DDA, #245DDA); /* XP-like gradient */
   border-top: 2px solid #5a6988;
   display: flex;
   align-items: center;
@@ -112,12 +112,14 @@ body {
   z-index: 200;
 }
 #taskbar-clock {
-  margin-left: auto; /* Push the clock to the far right */
-  color: white;
+  margin-left: auto;
   font-family: 'Tahoma', sans-serif;
   font-size: 14px;
-  padding-right: 10px;
+  color: #ffffff; /* White for XP */
+  text-shadow: 1px 1px 0 #2b4f7b; /* Subtle shadow for XP feel */
+  padding-right: 27px;
 }
+
 
 #start-menu ul {
   list-style: none;
@@ -149,29 +151,29 @@ body {
 /* Main Content Styles */
 #main-content {
   position: absolute;
-  top: 100px; /* Start below the desktop icons */
+  top: 100px;
   left: 50%;
-  transform: translateX(-50%); /* Center horizontally */
-  width: 70%; /* Reduce the width */
-  height: 60%; /* Reduce the height */
-  background: rgba(255, 255, 255, 0.9); /* Slightly more opaque for better readability */
-  border: 2px solid #000;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 60%;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #2b4f7b; /* XP-style border color */
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  overflow-y: auto; /* Enable scrolling if content overflows */
   z-index: 10;
+  overflow-y: auto;
 }
 
 .hidden {
   display: none;
 }
-/* Window Controls */
 #window-controls {
   display: flex;
   justify-content: flex-end;
-  background: #bfcde0;
+  align-items: center;
+  background: linear-gradient(to bottom, #4a76a8, #35679a); /* XP gradient */
+  color: white; /* Text color */
   padding: 5px;
-  border-bottom: 1px solid #808080;
+  border-bottom: 2px solid #2b4f7b; /* Match the XP border color */
 }
 
 #window-controls button {
@@ -218,4 +220,95 @@ body {
 
 .taskbar-item:hover {
   background: #d0d0d0;
+}
+
+/* Popup Games Window */
+#popup-games {
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.9); /* Simulate a folder window background */
+  border: 2px solid #808080;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+#popup-games.hidden {
+  display: none;
+}
+
+/* Window Controls */
+#window-controls {
+  display: flex;
+  justify-content: flex-end;
+  background: #245DDA;
+  padding: 5px;
+  border-bottom: 1px solid #808080;
+}
+
+#window-controls button {
+  width: 25px;
+  height: 25px;
+  font-family: 'Tahoma', sans-serif;
+  font-size: 14px;
+  text-align: center;
+  background: #e0e0e0;
+  border: 1px solid #808080;
+  cursor: pointer;
+  margin: 0 2px;
+  transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+#window-controls button:hover {
+  background: #d0d0d0;
+}
+
+#window-controls button:active {
+  transform: translateY(1px);
+  background: #c0c0c0;
+}
+
+/* Games Folder Content */
+#games-folder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.game-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  width: 80px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.game-icon img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 5px;
+}
+
+.game-icon p {
+  font-size: 12px;
+  margin: 0;
+  color: black;
+}
+
+.game-icon:hover img {
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}
+.game-icon img:hover {
+  filter: brightness(1.2);
 }
