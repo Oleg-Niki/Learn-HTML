@@ -67,14 +67,27 @@
 </section>
 
   <!-- Popup Games Menu -->
-  <div id="popup-games" class="hidden">
-    <h3>Games</h3>
-    <ul>
-      <li><a href="https://playsnake.org" target="_blank">Play Snake</a></li>
-      <li><a href="https://tetris.com/play-tetris" target="_blank">Play Tetris</a></li>
-      <li><a href="https://chrome-dino.com/" target="_blank">Dino Game</a></li>
-    </ul>
-    <button onclick="toggleGames()">Close</button>
+<section id="popup-games" class="hidden">
+  <div id="window-controls">
+    <button id="minimize-games" onclick="minimizeWindow()">_</button>
+    <button id="close-games" onclick="closeGames()">X</button>
   </div>
+  <div id="window-content">
+    <div id="games-folder">
+      <a href="https://worldofsolitaire.com" target="_blank" class="game-icon">
+        <img src="solitaire-icon.png" alt="Solitaire">
+        <p>Solitaire</p>
+      </a>
+      <a href="https://minesweeperonline.com" target="_blank" class="game-icon">
+        <img src="minesweeper-icon.png" alt="Minesweeper">
+        <p>Minesweeper</p>
+      </a>
+      <a href="https://playsnake.org" target="_blank" class="game-icon">
+        <img src="snake-icon.png" alt="Snake">
+        <p>Snake</p>
+      </a>
+    </div>
+  </div>
+</section>
 </body>
 </html>
