@@ -25,24 +25,23 @@
       <img src="contact-icon.png" alt="Contact Icon">
       <p>Contact</p>
     </a>
-    <a href="#" class="desktop-icon" onclick="toggleGames()">
+    <a href="#" class="desktop-icon" data-id="tired" onclick="toggleGames()">
       <img src="games-icon.png" alt="Tired Icon">
       <p>Tired?</p>
     </a>
   </div>
 
+  <!-- Taskbar -->
   <div id="taskbar">
-  <!-- Start Button -->
-  <div id="start-button-container">
-    <button id="start-button" onclick="toggleStartMenu()"></button>
+    <!-- Start Button -->
+    <div id="start-button-container">
+      <button id="start-button" onclick="toggleStartMenu()"></button>
+    </div>
+    <!-- Minimized Windows Area -->
+    <div id="minimized-windows"></div>
+    <!-- Taskbar Clock -->
+    <div id="taskbar-clock">12:00 PM</div>
   </div>
-
-  <!-- Minimized Windows Area -->
-  <div id="minimized-windows"></div>
-
-  <!-- Taskbar Clock -->
-  <div id="taskbar-clock">12:00 PM</div>
-</div>
 
   <!-- Start Menu -->
   <div id="start-menu" class="hidden">
@@ -55,39 +54,39 @@
   </div>
 
   <!-- Main Content Area -->
-<section id="main-content" class="hidden">
-  <div id="window-controls">
-    <button id="minimize" onclick="minimizeWindow()">_</button>
-	<button id="maximize" onclick="toggleMaximize()">□</button>
-    <button id="close" onclick="closeWindow()">X</button>
-  </div>
-  <div id="window-content">
-    <!-- Content will load here dynamically -->
-  </div>
-</section>
+  <section id="main-content" class="hidden">
+    <div id="window-controls">
+      <button id="minimize" onclick="minimizeWindow()">_</button>
+      <button id="maximize" onclick="toggleMaximize()">□</button>
+      <button id="close" onclick="closeWindow()">X</button>
+    </div>
+    <div id="window-content">
+      <!-- Dynamic content will load here -->
+    </div>
+  </section>
 
   <!-- Popup Games Menu -->
-<section id="popup-games" class="hidden">
-  <div id="window-controls">
-    <button id="minimize-games" onclick="minimizeWindow()">_</button>
-    <button id="close-games" onclick="closeGames()">X</button>
-  </div>
-  <div id="window-content">
-    <div id="games-folder">
-      <a href="https://worldofsolitaire.com" target="_blank" class="game-icon">
-        <img src="solitaire-icon.png" alt="Solitaire">
-        <p>Solitaire</p>
-      </a>
-      <a href="https://minesweeperonline.com" target="_blank" class="game-icon">
-        <img src="minesweeper-icon.png" alt="Minesweeper">
-        <p>Minesweeper</p>
-      </a>
-      <a href="https://playsnake.org" target="_blank" class="game-icon">
-        <img src="snake-icon.png" alt="Snake">
-        <p>Snake</p>
-      </a>
+  <section id="popup-games" class="hidden">
+    <div id="window-controls">
+      <button id="minimize-games" onclick="minimizeWindow()">_</button>
+      <button id="close-games" onclick="closeGames()">X</button>
     </div>
-  </div>
-</section>
+    <div id="window-content">
+      <div id="games-folder">
+        <a href="https://worldofsolitaire.com" target="_blank" class="game-icon">
+          <img src="solitaire-icon.png" alt="Solitaire">
+          <p>Solitaire</p>
+        </a>
+        <a href="https://minesweeperonline.com" target="_blank" class="game-icon">
+          <img src="minesweeper-icon.png" alt="Minesweeper">
+          <p>Minesweeper</p>
+        </a>
+        <a href="https://playsnake.org" target="_blank" class="game-icon">
+          <img src="snake-icon.png" alt="Snake">
+          <p>Snake</p>
+        </a>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
