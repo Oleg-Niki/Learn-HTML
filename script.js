@@ -130,3 +130,24 @@ function closeWindow() {
   mainContent.classList.add('hidden'); // Hide the main content window
   isWindowMinimized = false; // Reset minimized state
 }
+
+let bsodShown = false; // Track if BSOD has already been shown
+
+function toggleGames() {
+  const popupGames = document.getElementById('popup-games');
+  const bsodScreen = document.getElementById('bsod-screen');
+
+  if (!bsodShown) {
+    // Show BSOD screenshot
+    bsodScreen.classList.remove('hidden');
+    setTimeout(() => {
+      // Hide BSOD after 1.7 seconds and show games
+      bsodScreen.classList.add('hidden');
+      popupGames.classList.remove('hidden');
+    }, 2000);
+    bsodShown = true;
+  } else {
+    // Normal behavior for subsequent clicks
+    popupGames.classList.toggle('hidden');
+  }
+}
