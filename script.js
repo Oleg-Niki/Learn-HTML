@@ -48,7 +48,7 @@ Currently, I’m leading AI-driven robotics projects for sustainability and desi
     case 'gallery':
       contentArea.innerHTML = `
         <h1 style="margin-left: 10px;">Project Gallery</h1>
-        <p style="margin-left: 10px;">Here you can find my project images and descriptions...</p>
+        <p style="margin-left: 10px;">Here you can find my project images and descriptions... IN PROGRESS (This page is currently under construction 🚧. Stay tuned—it’ll be ready by January 2025, right after I conquer my final exams!) </p>
       `;
       break;
 
