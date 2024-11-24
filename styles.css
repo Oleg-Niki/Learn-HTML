@@ -245,7 +245,7 @@ body {
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid #2b4f7b;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
-  z-index: 10;
+  z-index: 5;
   display: flex;
   flex-direction: column;
 }
@@ -297,4 +297,23 @@ body {
 
 #bsod-screen.hidden {
   display: none;
+}
+.drag-handle {
+  cursor: move; /* Indicates draggable area */
+}
+.window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the window */
+  display: none; /* Initially hidden */
+}
+
+.window.hidden {
+  display: none; /* Hidden class ensures windows stay hidden initially */
+}
+
+.window:not(.hidden) {
+  display: flex; /* Use flexbox for better alignment */
+  flex-direction: column; /* Stack elements inside the window */
 }
