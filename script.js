@@ -38,24 +38,26 @@ function navigate(page) {
   switch (page) {
     case 'about':
       contentArea.innerHTML = `
-        <h1>About Me</h1>
-        <p>Hello! My name is Oleg Nikitashin. I am a second-year STEM student...</p>
+        <h1 style="margin-left: 10px;">About Me</h1>
+        <p style="margin-left: 10px;">Hello! My name is Oleg Nikitashin. I’m an engineer with a bachelor’s and master’s degree in STEM, currently earning my third STEM degree while specializing in blending mechanical engineering, robotics, and software development. From co-founding an auto parts business to managing construction projects and winning national championships as a race car designer and engineer, I thrive on solving complex challenges with precision and creativity.
+
+Currently, I’m leading AI-driven robotics projects for sustainability and designing interactive exhibits to promote clean energy. Whether on the racetrack, in the lab, or tackling real-world problems, I’m passionate about pushing the boundaries of innovation and engineering.</p>
       `;
       break;
 
     case 'gallery':
       contentArea.innerHTML = `
-        <h1>Project Gallery</h1>
-        <p>Here you can find my project images and descriptions...</p>
+        <h1 style="margin-left: 10px;">Project Gallery</h1>
+        <p style="margin-left: 10px;">Here you can find my project images and descriptions...</p>
       `;
       break;
 
     case 'contact':
       contentArea.innerHTML = `
-        <h1>Contact</h1>
-        <p>Email: <a href="mailto:oleg@oleg-nik.com">oleg@oleg-nik.com</a></p>
-        <p>Phone: +1-650-123-4567</p>
-        <p>LinkedIn: <a href="https://linkedin.com/in/oleg-nikitashin" target="_blank">linkedin.com/in/oleg-nikitashin</a></p>
+        <h1 style="margin-left: 10px;">Contact</h1>
+        <p style="margin-left: 10px;">Email: <a href="mailto:oleg@oleg-nik.com">oleg@oleg-nik.com</a></p>
+        <p style="margin-left: 10px;">Phone: +1-650-123-4567</p>
+        <p style="margin-left: 10px;">LinkedIn: <a href="https://linkedin.com/in/oleg-nikitashin" target="_blank">linkedin.com/in/oleg-nikitashin</a></p>
       `;
       break;
 
