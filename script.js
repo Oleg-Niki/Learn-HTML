@@ -57,7 +57,7 @@ Currently, I’m leading AI-driven robotics projects for sustainability and desi
         <h1 style="margin-left: 10px;">Contact</h1>
         <p style="margin-left: 10px;">Email: <a href="mailto:oleg@oleg-nik.com">oleg@oleg-nik.com</a></p>
         <p style="margin-left: 10px;">Phone: +1-650-123-4567</p>
-        <p style="margin-left: 10px;">LinkedIn: <a href="https://linkedin.com/in/oleg-nikitashin" target="_blank">linkedin.com/in/oleg-nikitashin</a></p>
+        <p style="margin-left: 10px;">LinkedIn: <a href="https://www.linkedin.com/in/oleg-nikitashin-2b038a20a/" target="_blank">linkedin.com/in/oleg-nikitashin</a></p>
       `;
       break;
 
