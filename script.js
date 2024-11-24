@@ -4,6 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
   popupGames.classList.add('hidden'); // Hide games window by default
 });
 
+// Global variable to track the highest z-index
+let highestZIndex = 10; // Initial z-index for all windows
+
+// Function to bring an element to the front
+function bringToFront(element) {
+  highestZIndex += 1; // Increment the z-index tracker
+  element.style.zIndex = highestZIndex; // Assign the new highest z-index to the element
+}
+
 // Toggle Start Menu
 function toggleStartMenu() {
   const startMenu = document.getElementById('start-menu');
@@ -15,21 +24,22 @@ function navigate(page) {
   const contentArea = document.getElementById('window-content'); // Target content area
   const mainContent = document.getElementById('main-content');
   const startMenu = document.getElementById('start-menu'); // Close Start Menu
+  
   startMenu.classList.add('hidden'); // Ensure Start Menu closes
   mainContent.classList.remove('hidden'); // Show main content window
+  bringToFront(mainContent); // Bring main content to the front
+  
+  // Center the window
+  mainContent.style.top = '50%';
+  mainContent.style.left = '50%';
+  mainContent.style.transform = 'translate(-50%, -50%)';
 
   // Load content dynamically based on the selected page
   switch (page) {
     case 'about':
       contentArea.innerHTML = `
-        <h1 style="margin-left: 10px;">About Me</h1>
-        <p style="margin-left: 10px;">Hello! My name is Oleg Nikitashin. I’m a second-year STEM student at the College of San Mateo, combining my passion for mechanical engineering, robotics, and software development to create sustainable and innovative solutions. I hold a bachelor’s degree in computer science with a focus on local area network hardware and a master’s degree specializing in software for economics. Yes, I earned those during the glorious Windows XP era—don’t worry, I’ve since kept up with every version (and yes, I know you’re secretly judging me for using Vista at one point).
-
-Beyond academics, I’ve co-founded an auto parts business, managed construction projects, and raced to success—literally. As a race car designer, engineer, and champion, I’ve secured national titles in Time Attack Racing and contributed to redefining what’s possible in motorsport engineering.
-
-Now, as the treasurer of the CSM Robotics Club, I lead projects like building AI-powered robots that sort trash (because, let’s face it, humans don’t always get it right) and designing interactive exhibits that educate about clean energy. I thrive on solving real-world problems, whether it’s on the track, in a lab, or while explaining to a robot why a banana peel doesn’t go in the recycling bin.
-
-With a track record of leadership, innovation, and a touch of humor, I’m ready to take on new challenges—preferably ones involving fast cars, smart tech, or at least a decent Wi-Fi connection.</p>
+        <h1>About Me</h1>
+        <p>Hello! My name is Oleg Nikitashin. I am a second-year STEM student...</p>
       `;
       break;
 
@@ -45,7 +55,7 @@ With a track record of leadership, innovation, and a touch of humor, I’m ready
         <h1>Contact</h1>
         <p>Email: <a href="mailto:oleg@oleg-nik.com">oleg@oleg-nik.com</a></p>
         <p>Phone: +1-650-123-4567</p>
-        <p>LinkedIn: <a href="https://www.linkedin.com/in/oleg-nikitashin-2b038a20a/" target="_blank">linkedin.com/in/oleg-nikitashin</a></p>
+        <p>LinkedIn: <a href="https://linkedin.com/in/oleg-nikitashin" target="_blank">linkedin.com/in/oleg-nikitashin</a></p>
       `;
       break;
 
@@ -57,7 +67,25 @@ With a track record of leadership, innovation, and a touch of humor, I’m ready
 // Toggle Popup Games Menu
 function toggleGames() {
   const popupGames = document.getElementById('popup-games');
-  popupGames.classList.toggle('hidden'); // Toggle the hidden class
+  const bsodScreen = document.getElementById('bsod-screen');
+
+  if (!bsodScreen.classList.contains('shown')) {
+    // Show BSOD for the first time
+    bsodScreen.classList.remove('hidden');
+    bsodScreen.classList.add('shown'); // Mark BSOD as shown
+    setTimeout(() => {
+      bsodScreen.classList.add('hidden');
+      popupGames.classList.remove('hidden');
+      bringToFront(popupGames);  // Center the games window
+      popupGames.style.top = '50%';
+      popupGames.style.left = '50%';
+      popupGames.style.transform = 'translate(-50%, -50%)';
+    }, 1800);
+  } else {
+    // Normal behavior for subsequent clicks
+    popupGames.classList.toggle('hidden');
+    bringToFront(popupGames);
+  }
 }
 
 // Close the Popup Games Menu
@@ -66,21 +94,10 @@ function closeGames() {
   popupGames.classList.add('hidden'); // Add the hidden class
 }
 
-// Update Taskbar Clock Every Second
-setInterval(() => {
-  const now = new Date();
-  const hours = now.getHours();
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const period = hours >= 12 ? 'PM' : 'AM';
-  const formattedTime = `${hours % 12 || 12}:${minutes} ${period}`;
-  document.getElementById('taskbar-clock').textContent = formattedTime;
-}, 1000);
-
 // Minimize, Maximize, and Close Functionality
 let isWindowMinimized = false; // Track window state
 let isMaximized = false; // Track maximize state
 
-// Minimize Window
 function minimizeWindow() {
   const mainContent = document.getElementById('main-content');
   const minimizedWindows = document.getElementById('minimized-windows');
@@ -96,6 +113,7 @@ function minimizeWindow() {
     taskbarItem.onclick = () => {
       // Restore the window when the taskbar item is clicked
       mainContent.classList.remove('hidden');
+      bringToFront(mainContent);
       taskbarItem.remove();
       isWindowMinimized = false;
     };
@@ -104,19 +122,16 @@ function minimizeWindow() {
   }
 }
 
-// Maximize/Restore Window
 function toggleMaximize() {
   const mainContent = document.getElementById('main-content');
   if (isMaximized) {
-    // Restore to default size and position
     mainContent.style.width = '70%';
     mainContent.style.height = '60%';
-    mainContent.style.top = '100px';
+    mainContent.style.top = '50%';
     mainContent.style.left = '50%';
-    mainContent.style.transform = 'translateX(-50%)';
+    mainContent.style.transform = 'translate(-50%, -50%)';
     isMaximized = false;
   } else {
-    // Maximize to full screen
     mainContent.style.width = '100%';
     mainContent.style.height = '100%';
     mainContent.style.top = '0';
@@ -126,30 +141,49 @@ function toggleMaximize() {
   }
 }
 
-// Close Window
 function closeWindow() {
   const mainContent = document.getElementById('main-content');
-  mainContent.classList.add('hidden'); // Hide the main content window
-  isWindowMinimized = false; // Reset minimized state
+  mainContent.classList.add('hidden');
+  isWindowMinimized = false;
 }
 
-let bsodShown = false; // Track if BSOD has already been shown
+// Function to make a window draggable
+function makeDraggable(element) {
+  const dragHandle = element.querySelector('.drag-handle');
+  let offsetX = 0;
+  let offsetY = 0;
+  let isDragging = false;
 
-function toggleGames() {
-  const popupGames = document.getElementById('popup-games');
-  const bsodScreen = document.getElementById('bsod-screen');
+  // Mouse down event
+  dragHandle.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - element.offsetLeft;
+    offsetY = e.clientY - element.offsetTop;
 
-  if (!bsodShown) {
-    // Show BSOD screenshot
-    bsodScreen.classList.remove('hidden');
-    setTimeout(() => {
-      // Hide BSOD after 1.7 seconds and show games
-      bsodScreen.classList.add('hidden');
-      popupGames.classList.remove('hidden');
-    }, 2000);
-    bsodShown = true;
-  } else {
-    // Normal behavior for subsequent clicks
-    popupGames.classList.toggle('hidden');
-  }
+    // Bring the window to the front
+    bringToFront(element);
+  });
+
+  // Mouse move event
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      const newX = e.clientX - offsetX;
+      const newY = e.clientY - offsetY;
+
+      // Allow free movement without constraints
+      element.style.left = `${newX}px`;
+      element.style.top = `${newY}px`;
+    }
+  });
+
+  // Mouse up event
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
 }
+
+// Apply draggable functionality to all windows
+document.querySelectorAll('.window').forEach((window) => {
+  makeDraggable(window);
+});
+
