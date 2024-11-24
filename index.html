@@ -12,8 +12,9 @@
   <script src="script.js" defer></script>
 </head>
 <body>
-<!-- BSOD Screen -->
-<div id="bsod-screen" class="hidden"></div>
+  <!-- BSOD Screen -->
+  <div id="bsod-screen" class="hidden"></div>
+  
   <!-- Desktop Background -->
   <div id="desktop">
     <!-- Interactive Desktop Icons -->
@@ -58,8 +59,9 @@
   </div>
 
   <!-- Main Content Area -->
-  <section id="main-content" class="hidden">
-    <div id="window-controls">
+  <section id="main-content" class="hidden window">
+    <!-- Drag Handle -->
+    <div id="window-controls" class="drag-handle">
       <button id="minimize" onclick="minimizeWindow()">_</button>
       <button id="maximize" onclick="toggleMaximize()">□</button>
       <button id="close" onclick="closeWindow()">X</button>
@@ -70,8 +72,9 @@
   </section>
 
   <!-- Popup Games Menu -->
-  <section id="popup-games" class="hidden">
-    <div id="window-controls">
+  <section id="popup-games" class="hidden window">
+    <!-- Drag Handle -->
+    <div id="window-controls" class="drag-handle">
       <button id="minimize-games" onclick="minimizeWindow()">_</button>
       <button id="close-games" onclick="closeGames()">X</button>
     </div>
