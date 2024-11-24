@@ -22,8 +22,8 @@ function navigate(page) {
   switch (page) {
     case 'about':
       contentArea.innerHTML = `
-        <h1>About Me</h1>
-        <p>Hello! My name is Oleg Nikitashin. I am a second-year STEM student at the College of San Mateo, pursuing a career that blends mechanical engineering, robotics, and software development. I hold a bachelor’s degree in computer science with a focus on local area network hardware and a master’s degree in computer science specializing in software for economics. These qualifications, combined with my practical experience, enable me to tackle interdisciplinary challenges with a unique perspective.
+        <h1 style="margin-left: 10px;">About Me</h1>
+        <p style="margin-left: 10px;">Hello! My name is Oleg Nikitashin. I am a second-year STEM student at the College of San Mateo, pursuing a career that blends mechanical engineering, robotics, and software development. I hold a bachelor’s degree in computer science with a focus on local area network hardware and a master’s degree in computer science specializing in software for economics. These qualifications, combined with my practical experience, enable me to tackle interdisciplinary challenges with a unique perspective.
 
 My diverse experience includes co-founding an auto parts business, managing construction projects, and excelling in competitive motorsport as a race car designer, engineer, and champion. As the treasurer of the CSM Robotics Club, I’ve spearheaded projects such as building AI-driven robotics systems for waste management and designing interactive exhibits to educate about clean energy.
 
