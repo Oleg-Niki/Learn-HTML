@@ -23,11 +23,13 @@ function navigate(page) {
     case 'about':
       contentArea.innerHTML = `
         <h1 style="margin-left: 10px;">About Me</h1>
-        <p style="margin-left: 10px;">Hello! My name is Oleg Nikitashin. I am a second-year STEM student at the College of San Mateo, pursuing a career that blends mechanical engineering, robotics, and software development. I hold a bachelor’s degree in computer science with a focus on local area network hardware and a master’s degree in computer science specializing in software for economics. These qualifications, combined with my practical experience, enable me to tackle interdisciplinary challenges with a unique perspective.
+        <p style="margin-left: 10px;">Hello! My name is Oleg Nikitashin. I’m a second-year STEM student at the College of San Mateo, combining my passion for mechanical engineering, robotics, and software development to create sustainable and innovative solutions. I hold a bachelor’s degree in computer science with a focus on local area network hardware and a master’s degree specializing in software for economics. Yes, I earned those during the glorious Windows XP era—don’t worry, I’ve since kept up with every version (and yes, I know you’re secretly judging me for using Vista at one point).
 
-My diverse experience includes co-founding an auto parts business, managing construction projects, and excelling in competitive motorsport as a race car designer, engineer, and champion. As the treasurer of the CSM Robotics Club, I’ve spearheaded projects such as building AI-driven robotics systems for waste management and designing interactive exhibits to educate about clean energy.
+Beyond academics, I’ve co-founded an auto parts business, managed construction projects, and raced to success—literally. As a race car designer, engineer, and champion, I’ve secured national titles in Time Attack Racing and contributed to redefining what’s possible in motorsport engineering.
 
-I am passionate about advancing sustainability and technology by bridging disciplines and delivering innovative solutions to real-world problems. With a proven track record of leadership and technical expertise, I am dedicated to driving impactful results in dynamic environments.</p>
+Now, as the treasurer of the CSM Robotics Club, I lead projects like building AI-powered robots that sort trash (because, let’s face it, humans don’t always get it right) and designing interactive exhibits that educate about clean energy. I thrive on solving real-world problems, whether it’s on the track, in a lab, or while explaining to a robot why a banana peel doesn’t go in the recycling bin.
+
+With a track record of leadership, innovation, and a touch of humor, I’m ready to take on new challenges—preferably ones involving fast cars, smart tech, or at least a decent Wi-Fi connection.</p>
       `;
       break;
 
