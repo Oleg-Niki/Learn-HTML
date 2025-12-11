@@ -3,7 +3,13 @@
 (() => {
     let highestZIndex = 10;
     let bsodShown = false;
-    let isMainMaximized = false;
+    const minimizedButtons = new Set();
+    const maximizedWindows = new Set();
+    const PAGE_ICONS = {
+        about: "about-icon.png",
+        gallery: "gallery-icon.png",
+        contact: "contact-icon.png",
+    };
 
     const PAGES = {
         about: {
@@ -59,6 +65,7 @@
 
         initDesktopIcons();
         initStartMenu();
+        initQuickLaunch();
         initWindowControls();
         initGlobalClickHandlers();
         initClock();
@@ -101,9 +108,10 @@
                 startMenu.classList.add("hidden");
             });
         });
+    }
 
-        // Quick action buttons on the right
-        const quickButtons = startMenu.querySelectorAll(".start-quick-button");
+    function initQuickLaunch() {
+        const quickButtons = document.querySelectorAll(".quick-button");
         quickButtons.forEach((btn) => {
             btn.addEventListener("click", (e) => {
                 e.preventDefault();
@@ -136,8 +144,8 @@
             return;
         }
 
-        // Otherwise it's a page for the main window
-        openMainWindowWithPage(target);
+        // Otherwise it's a standalone content window
+        openContentWindow(target);
     }
 
     function handleQuickAction(action) {
@@ -162,33 +170,70 @@
     }
 
     /* --------------------------------------------------
-     * Main Window Content (About / Gallery / Contact)
+     * Content Windows (About / Gallery / Contact)
      * -------------------------------------------------- */
 
-    function openMainWindowWithPage(pageKey) {
+    function openContentWindow(pageKey) {
         const page = PAGES[pageKey];
         if (!page) return;
 
-        const windowEl = document.getElementById("main-content");
-        const contentArea = document.getElementById("main-window-content");
-        const titleSpan = document.getElementById("main-window-title");
+        const windowId = `window-${pageKey}`;
+        let windowEl = document.getElementById(windowId);
 
-        if (!windowEl || !contentArea) return;
-
-        windowEl.classList.remove("hidden");
-        bringToFront(windowEl);
-
-        if (!isMainMaximized) {
-            centerWindow(windowEl, true);
+        if (!windowEl) {
+            windowEl = createContentWindow(windowId, pageKey, page);
+            document.body.appendChild(windowEl);
+            wireWindowControls(windowEl);
+        } else {
+            const contentArea = windowEl.querySelector(".window-body");
+            if (contentArea) {
+                contentArea.innerHTML = `
+          <h1>${page.title}</h1>
+          ${page.html}
+        `;
+            }
         }
 
-        if (titleSpan) {
-            titleSpan.textContent = `Oleg – ${page.title}`;
-        }
-        contentArea.innerHTML = `
-      <h1>${page.title}</h1>
-      ${page.html}
+        showWindow(windowEl);
+        centerWindow(windowEl, true);
+    }
+
+    function createContentWindow(id, pageKey, page) {
+        const icon = PAGE_ICONS[pageKey] || "about-icon.png";
+        const section = document.createElement("section");
+        section.id = id;
+        section.className = "window window--primary hidden";
+        section.setAttribute("role", "dialog");
+        section.setAttribute("aria-modal", "false");
+        section.setAttribute("aria-labelledby", `${id}-title`);
+
+        section.innerHTML = `
+      <header class="window-titlebar drag-handle">
+        <div class="window-titlebar-left">
+          <img src="${icon}" alt="" class="window-title-icon" aria-hidden="true">
+          <span id="${id}-title" class="window-title">
+            ${page.title}
+          </span>
+        </div>
+        <div class="window-titlebar-controls">
+          <button type="button" class="window-control window-control--minimize" data-action="minimize" data-target="${id}" aria-label="Minimize">
+            _
+          </button>
+          <button type="button" class="window-control window-control--maximize" data-action="maximize" data-target="${id}" aria-label="Maximize">
+            ▢
+          </button>
+          <button type="button" class="window-control window-control--close" data-action="close" data-target="${id}" aria-label="Close">
+            X
+          </button>
+        </div>
+      </header>
+      <div class="window-body">
+        <h1>${page.title}</h1>
+        ${page.html}
+      </div>
     `;
+
+        return section;
     }
 
     /* --------------------------------------------------
@@ -208,15 +253,17 @@
 
             setTimeout(() => {
                 bsodScreen.classList.add("hidden");
-                gamesWindow.classList.remove("hidden");
-                bringToFront(gamesWindow);
+                showWindow(gamesWindow);
                 centerWindow(gamesWindow, false);
             }, 1800);
         } else {
             // Next times: just toggle window
-            gamesWindow.classList.toggle("hidden");
-            if (!gamesWindow.classList.contains("hidden")) {
-                bringToFront(gamesWindow);
+            const isHidden = gamesWindow.classList.contains("hidden") || gamesWindow.style.display === "none";
+            if (isHidden) {
+                showWindow(gamesWindow);
+                centerWindow(gamesWindow, false);
+            } else {
+                hideWindow(gamesWindow);
             }
         }
     }
@@ -226,7 +273,11 @@
      * -------------------------------------------------- */
 
     function initWindowControls() {
-        const controls = document.querySelectorAll(".window-control");
+        wireWindowControls(document);
+    }
+
+    function wireWindowControls(container) {
+        const controls = container.querySelectorAll(".window-control");
         controls.forEach((control) => {
             control.addEventListener("click", (e) => {
                 e.stopPropagation();
@@ -240,8 +291,7 @@
                         minimizeWindow(targetId);
                         break;
                     case "maximize":
-                        // Currently only main window has maximize button
-                        toggleMainMaximize(targetId);
+                        toggleMaximize(targetId);
                         break;
                     case "close":
                         closeWindow(targetId);
@@ -253,42 +303,16 @@
 
     function minimizeWindow(targetId) {
         const windowEl = document.getElementById(targetId);
-        const minimizedArea = document.getElementById("minimized-windows");
-        if (!windowEl || !minimizedArea) return;
+        if (!windowEl) return;
 
-        windowEl.classList.add("hidden");
+        hideWindow(windowEl);
 
-        // Create a taskbar button if not already present
-        let existing = minimizedArea.querySelector(
-            `[data-restore="${targetId}"]`
-        );
-        if (!existing) {
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = "taskbar-item";
-            btn.dataset.restore = targetId;
-
-            const windowTitle = windowEl.querySelector(".window-title");
-            btn.textContent = windowTitle ?
-                windowTitle.textContent :
-                "Window";
-
-            btn.addEventListener("click", () => {
-                // Toggle show/hide on click
-                const targetWindow = document.getElementById(targetId);
-                if (!targetWindow) return;
-                const hidden = targetWindow.classList.toggle("hidden");
-                if (!hidden) {
-                    bringToFront(targetWindow);
-                }
-            });
-
-            minimizedArea.appendChild(btn);
-        }
+        minimizedButtons.add(targetId);
+        renderMinimizedButtons();
     }
 
     function minimizeAllWindows() {
-        const windows = document.querySelectorAll(".window");
+        const windows = document.querySelectorAll(".window:not(.hidden)");
         windows.forEach((win) => {
             if (win.id) {
                 minimizeWindow(win.id);
@@ -296,22 +320,21 @@
         });
     }
 
-    function toggleMainMaximize(targetId) {
+    function toggleMaximize(targetId) {
         const windowEl = document.getElementById(targetId);
         if (!windowEl) return;
 
-        if (isMainMaximized) {
-            // Restore default centered size
-            centerWindow(windowEl, true);
-            isMainMaximized = false;
+        if (maximizedWindows.has(targetId)) {
+            // Restore to centered defaults
+            maximizedWindows.delete(targetId);
+            centerWindow(windowEl, windowEl.classList.contains("window--primary"));
         } else {
-            // Maximize to full viewport
+            maximizedWindows.add(targetId);
             windowEl.style.top = "0";
             windowEl.style.left = "0";
             windowEl.style.width = "100%";
             windowEl.style.height = "100%";
             windowEl.style.transform = "none";
-            isMainMaximized = true;
         }
 
         bringToFront(windowEl);
@@ -320,7 +343,16 @@
     function closeWindow(targetId) {
         const windowEl = document.getElementById(targetId);
         if (!windowEl) return;
-        windowEl.classList.add("hidden");
+        hideWindow(windowEl);
+        minimizedButtons.delete(targetId);
+        renderMinimizedButtons();
+
+        // Reset position so next open recenters
+        windowEl.style.top = "50%";
+        windowEl.style.left = "50%";
+        windowEl.style.width = "";
+        windowEl.style.height = "";
+        windowEl.style.transform = "translate(-50%, -50%)";
     }
 
     /* --------------------------------------------------
@@ -330,6 +362,59 @@
     function bringToFront(element) {
         highestZIndex += 1;
         element.style.zIndex = String(highestZIndex);
+    }
+
+    function showWindow(windowEl) {
+        windowEl.classList.remove("hidden");
+        windowEl.style.display = "";
+        bringToFront(windowEl);
+    }
+
+    function hideWindow(windowEl) {
+        windowEl.classList.add("hidden");
+        windowEl.style.display = "none";
+    }
+
+    function renderMinimizedButtons() {
+        const minimizedArea = document.getElementById("minimized-windows");
+        if (!minimizedArea) return;
+        minimizedArea.innerHTML = "";
+
+        minimizedButtons.forEach((id) => {
+            const windowEl = document.getElementById(id);
+            if (!windowEl) {
+                minimizedButtons.delete(id);
+                return;
+            }
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "taskbar-item";
+            btn.dataset.restore = id;
+
+            const windowTitle = windowEl.querySelector(".window-title");
+            btn.textContent = windowTitle ? windowTitle.textContent : "Window";
+
+            btn.addEventListener("click", () => {
+                const targetWindow = document.getElementById(id);
+                if (!targetWindow) return;
+                const isHidden =
+                    targetWindow.classList.contains("hidden") ||
+                    targetWindow.style.display === "none";
+                if (isHidden) {
+                    minimizedButtons.delete(id);
+                    showWindow(targetWindow);
+                    centerWindow(
+                        targetWindow,
+                        targetWindow.id === "main-content"
+                    );
+                    renderMinimizedButtons();
+                } else {
+                    minimizeWindow(id);
+                }
+            });
+
+            minimizedArea.appendChild(btn);
+        });
     }
 
     function centerWindow(windowEl, isPrimary) {
@@ -352,19 +437,29 @@
         };
 
         document.addEventListener("mousedown", (e) => {
+            // Ignore clicks on window control buttons so they don't initiate drag
+            if (e.target.closest(".window-control")) {
+                return;
+            }
+
             const handle = e.target.closest(".drag-handle");
             if (!handle) return;
 
             const windowEl = handle.closest(".window");
             if (!windowEl) return;
 
+            // Convert current transform-based centering to absolute coords for dragging
+            const rect = windowEl.getBoundingClientRect();
+            const absLeft = rect.left + window.scrollX;
+            const absTop = rect.top + window.scrollY;
+            windowEl.style.left = `${absLeft}px`;
+            windowEl.style.top = `${absTop}px`;
+            windowEl.style.transform = "none";
+
             dragState.active = true;
             dragState.windowEl = windowEl;
-            dragState.offsetX = e.clientX - windowEl.offsetLeft;
-            dragState.offsetY = e.clientY - windowEl.offsetTop;
-
-            // Once user drags, remove centering transform
-            windowEl.style.transform = "none";
+            dragState.offsetX = e.clientX - absLeft;
+            dragState.offsetY = e.clientY - absTop;
             bringToFront(windowEl);
         });
 
@@ -387,7 +482,7 @@
     function openInternetExplorerWindow() {
         const ieWindow = document.getElementById("popup-ie");
         if (!ieWindow) return;
-        ieWindow.classList.remove("hidden");
+        showWindow(ieWindow);
         bringToFront(ieWindow);
         centerWindow(ieWindow, false);
     }

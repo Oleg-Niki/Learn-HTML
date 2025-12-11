@@ -172,6 +172,43 @@ body {
     align-items: center;
 }
 
+.taskbar-quick {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 6px;
+}
+
+.quick-button {
+    width: 28px;
+    height: 26px;
+    padding: 2px;
+    background: #c0c0c0;
+    border-top: 2px solid var(--win98-border-light);
+    border-left: 2px solid var(--win98-border-light);
+    border-bottom: 2px solid var(--win98-border-dark);
+    border-right: 2px solid var(--win98-border-dark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.quick-button:active {
+    border-top: 2px solid var(--win98-border-dark);
+    border-left: 2px solid var(--win98-border-dark);
+    border-bottom: 2px solid var(--win98-border-light);
+    border-right: 2px solid var(--win98-border-light);
+    padding-top: 3px;
+    padding-left: 3px;
+}
+
+.quick-icon {
+    width: 18px;
+    height: 18px;
+    image-rendering: pixelated;
+}
+
 .start-button {
     display: inline-flex;
     align-items: center;
@@ -223,12 +260,14 @@ body {
     gap: 2px;
     margin-left: 4px;
     margin-right: auto;
-    max-width: 55%;
+    flex: 1;
+    min-width: 0;
     overflow-x: auto;
 }
 
 .taskbar-item {
-    min-width: 120px;
+    flex: 0 1 120px;
+    min-width: 90px;
     max-width: 180px;
     padding: 2px 6px;
     font-family: var(--win98-font);
@@ -274,10 +313,10 @@ body {
     position: fixed;
     left: 4px;
     bottom: 36px;
-    min-width: 260px;
+    min-width: 230px;
     z-index: 200;
     display: grid;
-    grid-template-columns: 40px 1fr 110px;
+    grid-template-columns: 40px 1fr;
     background: var(--win98-gray);
     border: 2px solid var(--win98-shadow);
     box-shadow: 2px 2px 0 var(--win98-shadow), -1px -1px 0 var(--win98-highlight);
@@ -349,45 +388,6 @@ body {
 .start-menu-icon {
     width: 20px;
     height: 20px;
-    image-rendering: pixelated;
-    filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.15));
-}
-
-.start-quick {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 6px 6px 6px 4px;
-    border-left: 1px solid var(--win98-border-medium);
-    background: linear-gradient(180deg, #d8d8d8, #c0c0c0);
-}
-
-.start-quick-button {
-    display: grid;
-    grid-template-columns: 22px 1fr;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 6px;
-    font-family: var(--win98-font);
-    font-size: 11px;
-    background: #c0c0c0;
-    border-top: 2px solid var(--win98-border-light);
-    border-left: 2px solid var(--win98-border-light);
-    border-bottom: 2px solid var(--win98-border-dark);
-    border-right: 2px solid var(--win98-border-dark);
-    cursor: default;
-    text-align: left;
-}
-
-.start-quick-button:hover,
-.start-quick-button:focus-visible {
-    background: #000080;
-    color: #ffffff;
-}
-
-.start-quick-icon {
-    width: 18px;
-    height: 18px;
     image-rendering: pixelated;
     filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.15));
 }

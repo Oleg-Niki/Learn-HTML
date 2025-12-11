@@ -54,6 +54,19 @@
       </button>
         </div>
 
+        <!-- Quick Launch -->
+        <div class="taskbar-quick" aria-label="Quick launch">
+            <button type="button" class="quick-button" data-action="minimize-all" title="Minimize All">
+                <img src="window-icon.png" alt="" class="quick-icon" aria-hidden="true">
+            </button>
+            <button type="button" class="quick-button" data-action="open-ie" title="Internet Explorer">
+                <img src="start-98-icon.png" alt="" class="quick-icon" aria-hidden="true">
+            </button>
+            <button type="button" class="quick-button" data-action="email" title="Email">
+                <img src="contact-icon.png" alt="" class="quick-icon" aria-hidden="true">
+            </button>
+        </div>
+
         <!-- Open / Minimized Windows Area -->
         <div id="minimized-windows" class="taskbar-windows" aria-label="Open windows"></div>
 
@@ -97,20 +110,6 @@
                 </button>
             </li>
         </ul>
-        <div class="start-quick" aria-label="Quick actions">
-            <button type="button" class="start-quick-button" data-action="minimize-all">
-                <img src="window-icon.png" alt="" class="start-quick-icon" aria-hidden="true">
-                <span>Minimize All</span>
-            </button>
-            <button type="button" class="start-quick-button" data-action="open-ie">
-                <img src="start-98-icon.png" alt="" class="start-quick-icon" aria-hidden="true">
-                <span>Internet Explorer</span>
-            </button>
-            <button type="button" class="start-quick-button" data-action="email">
-                <img src="contact-icon.png" alt="" class="start-quick-icon" aria-hidden="true">
-                <span>Email</span>
-            </button>
-        </div>
     </nav>
 
     <!-- Main Window (dynamic content) -->
@@ -152,6 +151,9 @@
             <div class="window-titlebar-controls">
                 <button type="button" class="window-control window-control--minimize" data-action="minimize" data-target="popup-games" aria-label="Minimize">
           _
+        </button>
+                <button type="button" class="window-control window-control--maximize" data-action="maximize" data-target="popup-games" aria-label="Maximize">
+          ▢
         </button>
                 <button type="button" class="window-control window-control--close" data-action="close" data-target="popup-games" aria-label="Close">
           X
