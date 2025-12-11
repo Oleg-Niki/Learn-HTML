@@ -1,99 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Oleg Nikitashin Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <!-- Favicon -->
-  <link rel="icon" href="icon-cpu-small.png" type="image/x-icon">
-  <!-- Link to the CSS file -->
-  <link rel="stylesheet" href="styles.css">
-  <!-- Link to the JavaScript file -->
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <title>Oleg Nikitashin – Windows 98 Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="icon" href="icon-cpu-small.png" type="image/x-icon">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Scripts -->
+    <script src="script.js" defer></script>
 </head>
+
 <body>
-  <!-- BSOD Screen -->
-  <div id="bsod-screen" class="hidden"></div>
-  
-  <!-- Desktop Background -->
-  <div id="desktop">
-    <!-- Interactive Desktop Icons -->
-    <a href="#" class="desktop-icon" onclick="navigate('about')">
-      <img src="about-icon.png" alt="About Me Icon">
-      <p>About Me</p>
-    </a>
-    <a href="#" class="desktop-icon" onclick="navigate('gallery')">
-      <img src="gallery-icon.png" alt="Project Gallery Icon">
-      <p>Project Gallery</p>
-    </a>
-    <a href="#" class="desktop-icon" onclick="navigate('contact')">
-      <img src="contact-icon.png" alt="Contact Icon">
-      <p>Contact</p>
-    </a>
-    <a href="#" class="desktop-icon" data-id="tired" onclick="toggleGames()">
-      <img src="games-icon.png" alt="Tired Icon">
-      <p>Tired?</p>
-    </a>
-  </div>
+    <!-- BSOD Screen Overlay -->
+    <div id="bsod-screen" class="bsod hidden" aria-hidden="true"></div>
 
-  <!-- Taskbar -->
-  <div id="taskbar">
-    <!-- Start Button -->
-    <div id="start-button-container">
-      <button id="start-button" onclick="toggleStartMenu()"></button>
-    </div>
-    <!-- Minimized Windows Area -->
-    <div id="minimized-windows"></div>
-    <!-- Taskbar Clock -->
-    <div id="taskbar-clock">12:00 PM</div>
-  </div>
+    <!-- Desktop Background -->
+    <main id="desktop" class="desktop" aria-label="Desktop">
+        <!-- Desktop Icons -->
+        <button type="button" class="desktop-icon" data-open="about">
+      <img src="about-icon.png" alt="About Me">
+      <span class="desktop-icon-label">About Me</span>
+    </button>
 
-  <!-- Start Menu -->
-  <div id="start-menu" class="hidden">
-    <ul>
-      <li><button onclick="navigate('about')">About Me</button></li>
-      <li><button onclick="navigate('gallery')">Project Gallery</button></li>
-      <li><button onclick="navigate('contact')">Contact</button></li>
-      <li><button onclick="toggleGames()">Tired? (Games)</button></li>
-    </ul>
-  </div>
+        <button type="button" class="desktop-icon" data-open="gallery">
+      <img src="gallery-icon.png" alt="Project Gallery">
+      <span class="desktop-icon-label">Project Gallery</span>
+    </button>
 
-  <!-- Main Content Area -->
-  <section id="main-content" class="hidden window">
-    <!-- Drag Handle -->
-    <div id="window-controls" class="drag-handle">
-      <button id="minimize" onclick="minimizeWindow()">_</button>
-      <button id="maximize" onclick="toggleMaximize()">□</button>
-      <button id="close" onclick="closeWindow()">X</button>
-    </div>
-    <div id="window-content">
-      <!-- Dynamic content will load here -->
-    </div>
-  </section>
+        <button type="button" class="desktop-icon" data-open="contact">
+      <img src="contact-icon.png" alt="Contact">
+      <span class="desktop-icon-label">Contact</span>
+    </button>
 
-  <!-- Popup Games Menu -->
-  <section id="popup-games" class="hidden window">
-    <!-- Drag Handle -->
-    <div id="window-controls" class="drag-handle">
-      <button id="minimize-games" onclick="minimizeWindow()">_</button>
-      <button id="close-games" onclick="closeGames()">X</button>
-    </div>
-    <div id="window-content">
-      <div id="games-folder">
-        <a href="https://worldofsolitaire.com" target="_blank" class="game-icon">
-          <img src="solitaire-icon.png" alt="Solitaire">
-          <p>Solitaire</p>
-        </a>
-        <a href="https://minesweeperonline.com" target="_blank" class="game-icon">
-          <img src="minesweeper-icon.png" alt="Minesweeper">
-          <p>Minesweeper</p>
-        </a>
-        <a href="https://playsnake.org" target="_blank" class="game-icon">
-          <img src="snake-icon.png" alt="Snake">
-          <p>Snake</p>
-        </a>
-      </div>
-    </div>
-  </section>
+        <button type="button" class="desktop-icon" data-open="games">
+      <img src="games-icon.png" alt="Tired? Games">
+      <span class="desktop-icon-label">Tired?</span>
+    </button>
+    </main>
+
+    <!-- Taskbar -->
+    <footer id="taskbar" class="taskbar" role="contentinfo">
+        <!-- Start Button -->
+        <div id="start-button-container" class="taskbar-start">
+            <button id="start-button" class="start-button" type="button" aria-haspopup="true" aria-controls="start-menu">
+        <span class="start-button-logo"></span>
+        <span class="start-button-label">Start</span>
+      </button>
+        </div>
+
+        <!-- Open / Minimized Windows Area -->
+        <div id="minimized-windows" class="taskbar-windows" aria-label="Open windows"></div>
+
+        <!-- Taskbar Clock -->
+        <div id="taskbar-clock" class="taskbar-clock" aria-label="Clock">
+            12:00 PM
+        </div>
+    </footer>
+
+    <!-- Start Menu -->
+    <nav id="start-menu" class="start-menu hidden" aria-label="Start menu">
+        <ul class="start-menu-list">
+            <li>
+                <button type="button" class="start-menu-item" data-open="about">
+          About Me
+        </button>
+            </li>
+            <li>
+                <button type="button" class="start-menu-item" data-open="gallery">
+          Project Gallery
+        </button>
+            </li>
+            <li>
+                <button type="button" class="start-menu-item" data-open="contact">
+          Contact
+        </button>
+            </li>
+            <li>
+                <button type="button" class="start-menu-item" data-open="games">
+          Tired? (Games)
+        </button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Window (dynamic content) -->
+    <section id="main-content" class="window window--primary hidden" role="dialog" aria-modal="false" aria-labelledby="main-window-title">
+        <header class="window-titlebar drag-handle">
+            <div class="window-titlebar-left">
+                <img src="about-icon.png" alt="" class="window-title-icon" aria-hidden="true">
+                <span id="main-window-title" class="window-title">
+          Oleg – Portfolio
+        </span>
+            </div>
+            <div class="window-titlebar-controls">
+                <button type="button" class="window-control window-control--minimize" data-action="minimize" data-target="main-content" aria-label="Minimize">
+          _
+        </button>
+                <button type="button" class="window-control window-control--maximize" data-action="maximize" data-target="main-content" aria-label="Maximize">
+          □
+        </button>
+                <button type="button" class="window-control window-control--close" data-action="close" data-target="main-content" aria-label="Close">
+          X
+        </button>
+            </div>
+        </header>
+
+        <div class="window-body" id="main-window-content">
+            <!-- Dynamic content will be injected here by script.js -->
+        </div>
+    </section>
+
+    <!-- Games Window -->
+    <section id="popup-games" class="window window--games hidden" role="dialog" aria-modal="false" aria-labelledby="games-window-title">
+        <header class="window-titlebar drag-handle">
+            <div class="window-titlebar-left">
+                <img src="games-icon.png" alt="" class="window-title-icon" aria-hidden="true">
+                <span id="games-window-title" class="window-title">
+          Games
+        </span>
+            </div>
+            <div class="window-titlebar-controls">
+                <button type="button" class="window-control window-control--minimize" data-action="minimize" data-target="popup-games" aria-label="Minimize">
+          _
+        </button>
+                <button type="button" class="window-control window-control--close" data-action="close" data-target="popup-games" aria-label="Close">
+          X
+        </button>
+            </div>
+        </header>
+
+        <div class="window-body">
+            <div id="games-folder" class="games-folder">
+                <a href="https://worldofsolitaire.com" target="_blank" rel="noopener noreferrer" class="game-icon">
+                    <img src="solitaire-icon.png" alt="Solitaire">
+                    <span class="desktop-icon-label">Solitaire</span>
+                </a>
+
+                <a href="https://minesweeperonline.com" target="_blank" rel="noopener noreferrer" class="game-icon">
+                    <img src="minesweeper-icon.png" alt="Minesweeper">
+                    <span class="desktop-icon-label">Minesweeper</span>
+                </a>
+
+                <a href="https://playsnake.org" target="_blank" rel="noopener noreferrer" class="game-icon">
+                    <img src="snake-icon.png" alt="Snake">
+                    <span class="desktop-icon-label">Snake</span>
+                </a>
+            </div>
+        </div>
+    </section>
 </body>
+
 </html>

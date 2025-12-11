@@ -1,191 +1,367 @@
-// Ensure the game window is hidden on page load
-document.addEventListener('DOMContentLoaded', () => {
-  const popupGames = document.getElementById('popup-games');
-  popupGames.classList.add('hidden'); // Hide games window by default
-});
+// script.js
 
-// Global variable to track the highest z-index
-let highestZIndex = 10; // Initial z-index for all windows
+(() => {
+    let highestZIndex = 10;
+    let bsodShown = false;
+    let isMainMaximized = false;
 
-// Function to bring an element to the front
-function bringToFront(element) {
-  highestZIndex += 1; // Increment the z-index tracker
-  element.style.zIndex = highestZIndex; // Assign the new highest z-index to the element
-}
-
-// Toggle Start Menu
-function toggleStartMenu() {
-  const startMenu = document.getElementById('start-menu');
-  startMenu.classList.toggle('hidden');
-}
-
-// Navigate to Different Pages
-function navigate(page) {
-  const contentArea = document.getElementById('window-content'); // Target content area
-  const mainContent = document.getElementById('main-content');
-  const startMenu = document.getElementById('start-menu'); // Close Start Menu
-  
-  startMenu.classList.add('hidden'); // Ensure Start Menu closes
-  mainContent.classList.remove('hidden'); // Show main content window
-  bringToFront(mainContent); // Bring main content to the front
-  
-  // Center the window
-  mainContent.style.top = '50%';
-  mainContent.style.left = '50%';
-  mainContent.style.transform = 'translate(-50%, -50%)';
-
-  // Load content dynamically based on the selected page
-  switch (page) {
-    case 'about':
-      contentArea.innerHTML = `
-        <h1 style="margin-left: 10px;">About Me</h1>
-        <p style="margin-left: 10px;">Hello! My name is Oleg Nikitashin. I’m an engineer with a bachelor’s and master’s degree in STEM, currently earning my third STEM degree while specializing in blending mechanical engineering, robotics, and software development. From co-founding an auto parts business to managing construction projects and winning national championships as a race car designer and engineer, I thrive on solving complex challenges with precision and creativity.
-
-Currently, I’m leading AI-driven robotics projects for sustainability and designing interactive exhibits to promote clean energy. Whether on the racetrack, in the lab, or tackling real-world problems, I’m passionate about pushing the boundaries of innovation and engineering.</p>
-      `;
-      break;
-
-    case 'gallery':
-      contentArea.innerHTML = `
-        <h1 style="margin-left: 10px;">Project Gallery</h1>
-        <p style="margin-left: 10px;">Here you can find my project images and descriptions... IN PROGRESS (This page is currently under construction 🚧. Stay tuned—it’ll be ready by January 2025, right after I conquer my final exams!) </p>
-      `;
-      break;
-
-    case 'contact':
-      contentArea.innerHTML = `
-        <h1 style="margin-left: 10px;">Contact</h1>
-        <p style="margin-left: 10px;">Email: <a href="mailto:oleg@oleg-nik.com">oleg@oleg-nik.com</a></p>
-        <p style="margin-left: 10px;">Phone: +1-650-123-4567</p>
-        <p style="margin-left: 10px;">LinkedIn: <a href="https://www.linkedin.com/in/oleg-nikitashin-2b038a20a/" target="_blank">linkedin.com/in/oleg-nikitashin</a></p>
-      `;
-      break;
-
-    default:
-      contentArea.innerHTML = `<p>Page not found!</p>`;
-  }
-}
-
-// Toggle Popup Games Menu
-function toggleGames() {
-  const popupGames = document.getElementById('popup-games');
-  const bsodScreen = document.getElementById('bsod-screen');
-
-  if (!bsodScreen.classList.contains('shown')) {
-    // Show BSOD for the first time
-    bsodScreen.classList.remove('hidden');
-    bsodScreen.classList.add('shown'); // Mark BSOD as shown
-    setTimeout(() => {
-      bsodScreen.classList.add('hidden');
-      popupGames.classList.remove('hidden');
-      bringToFront(popupGames);  // Center the games window
-      popupGames.style.top = '50%';
-      popupGames.style.left = '50%';
-      popupGames.style.transform = 'translate(-50%, -50%)';
-    }, 1800);
-  } else {
-    // Normal behavior for subsequent clicks
-    popupGames.classList.toggle('hidden');
-    bringToFront(popupGames);
-  }
-}
-
-// Close the Popup Games Menu
-function closeGames() {
-  const popupGames = document.getElementById('popup-games');
-  popupGames.classList.add('hidden'); // Add the hidden class
-}
-
-// Minimize, Maximize, and Close Functionality
-let isWindowMinimized = false; // Track window state
-let isMaximized = false; // Track maximize state
-
-function minimizeWindow() {
-  const mainContent = document.getElementById('main-content');
-  const minimizedWindows = document.getElementById('minimized-windows');
-
-  // Hide the main content window
-  mainContent.classList.add('hidden');
-
-  // Add a taskbar item for the minimized window
-  if (!isWindowMinimized) {
-    const taskbarItem = document.createElement('div');
-    taskbarItem.classList.add('taskbar-item');
-    taskbarItem.textContent = 'Window'; // Display name of the window
-    taskbarItem.onclick = () => {
-      // Restore the window when the taskbar item is clicked
-      mainContent.classList.remove('hidden');
-      bringToFront(mainContent);
-      taskbarItem.remove();
-      isWindowMinimized = false;
+    const PAGES = {
+        about: {
+            title: "About Me",
+            html: `
+        <p>
+          I’m Oleg, an international engineering student and robotics technician based in the Bay Area. With a background in computer science, racing, and sustainability projects, I like turning complex ideas into practical, efficient systems. When I’m not in class or at work, I’m usually building robots, tuning race cars, or designing interactive exhibits that make technology easier to understand.
+        </p>
+        
+      `,
+        },
+        gallery: {
+            title: "Project Gallery",
+            html: `
+        <p>
+          Here you’ll soon find a curated gallery of my projects: race car builds,
+          robotics systems, sustainability exhibits, and more.
+        </p>
+        <p>
+          This section is under construction 🚧 and will be updated after finals
+          season. Come back in early 2025 for a proper portfolio of photos and
+          build notes.
+        </p>
+      `,
+        },
+        contact: {
+            title: "Contact",
+            html: `
+        <p>You can reach me here:</p>
+        <p>
+          Email:
+          <a href="mailto:oleg@oleg-nik.com">oleg@oleg-nik.com</a>
+        </p>
+        <p>
+          LinkedIn:
+          <a href="https://www.linkedin.com/in/oleg-nikitashin-2b038a20a/"
+             target="_blank" rel="noopener noreferrer">
+            linkedin.com/in/oleg-nikitashin-2b038a20a
+          </a>
+        </p>
+      `,
+        },
     };
-    minimizedWindows.appendChild(taskbarItem);
-    isWindowMinimized = true;
-  }
-}
 
-function toggleMaximize() {
-  const mainContent = document.getElementById('main-content');
-  if (isMaximized) {
-    mainContent.style.width = '70%';
-    mainContent.style.height = '60%';
-    mainContent.style.top = '50%';
-    mainContent.style.left = '50%';
-    mainContent.style.transform = 'translate(-50%, -50%)';
-    isMaximized = false;
-  } else {
-    mainContent.style.width = '100%';
-    mainContent.style.height = '100%';
-    mainContent.style.top = '0';
-    mainContent.style.left = '0';
-    mainContent.style.transform = 'none';
-    isMaximized = true;
-  }
-}
+    document.addEventListener("DOMContentLoaded", init);
 
-function closeWindow() {
-  const mainContent = document.getElementById('main-content');
-  mainContent.classList.add('hidden');
-  isWindowMinimized = false;
-}
+    function init() {
+        // Ensure games window starts hidden (defensive)
+        const popupGames = document.getElementById("popup-games");
+        if (popupGames) {
+            popupGames.classList.add("hidden");
+        }
 
-// Function to make a window draggable
-function makeDraggable(element) {
-  const dragHandle = element.querySelector('.drag-handle');
-  let offsetX = 0;
-  let offsetY = 0;
-  let isDragging = false;
-
-  // Mouse down event
-  dragHandle.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    offsetX = e.clientX - element.offsetLeft;
-    offsetY = e.clientY - element.offsetTop;
-
-    // Bring the window to the front
-    bringToFront(element);
-  });
-
-  // Mouse move event
-  document.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-      const newX = e.clientX - offsetX;
-      const newY = e.clientY - offsetY;
-
-      // Allow free movement without constraints
-      element.style.left = `${newX}px`;
-      element.style.top = `${newY}px`;
+        initDesktopIcons();
+        initStartMenu();
+        initWindowControls();
+        initGlobalClickHandlers();
+        initClock();
+        initDragging();
     }
-  });
 
-  // Mouse up event
-  document.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
-}
+    /* --------------------------------------------------
+     * Desktop / Start Menu
+     * -------------------------------------------------- */
 
-// Apply draggable functionality to all windows
-document.querySelectorAll('.window').forEach((window) => {
-  makeDraggable(window);
-});
+    function initDesktopIcons() {
+        const icons = document.querySelectorAll(".desktop-icon");
+        icons.forEach((icon) => {
+            icon.addEventListener("click", (e) => {
+                e.preventDefault();
+                const target = icon.dataset.open;
+                handleOpenTarget(target);
+            });
+        });
+    }
 
+    function initStartMenu() {
+        const startButton = document.getElementById("start-button");
+        const startMenu = document.getElementById("start-menu");
+
+        if (!startButton || !startMenu) return;
+
+        startButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            startMenu.classList.toggle("hidden");
+        });
+
+        // Items inside Start menu
+        const items = startMenu.querySelectorAll(".start-menu-item");
+        items.forEach((item) => {
+            item.addEventListener("click", (e) => {
+                e.preventDefault();
+                const target = item.dataset.open;
+                handleOpenTarget(target);
+                startMenu.classList.add("hidden");
+            });
+        });
+    }
+
+    function initGlobalClickHandlers() {
+        const startMenu = document.getElementById("start-menu");
+        const startButton = document.getElementById("start-button");
+
+        // Click outside Start menu closes it
+        document.addEventListener("click", (e) => {
+            if (!startMenu || !startButton) return;
+            const clickedInsideMenu = startMenu.contains(e.target);
+            const clickedStartButton = startButton.contains(e.target);
+            if (!clickedInsideMenu && !clickedStartButton) {
+                startMenu.classList.add("hidden");
+            }
+        });
+    }
+
+    function handleOpenTarget(target) {
+        if (!target) return;
+
+        if (target === "games") {
+            openGamesWindow();
+            return;
+        }
+
+        // Otherwise it's a page for the main window
+        openMainWindowWithPage(target);
+    }
+
+    /* --------------------------------------------------
+     * Main Window Content (About / Gallery / Contact)
+     * -------------------------------------------------- */
+
+    function openMainWindowWithPage(pageKey) {
+        const page = PAGES[pageKey];
+        if (!page) return;
+
+        const windowEl = document.getElementById("main-content");
+        const contentArea = document.getElementById("main-window-content");
+        const titleSpan = document.getElementById("main-window-title");
+
+        if (!windowEl || !contentArea) return;
+
+        windowEl.classList.remove("hidden");
+        bringToFront(windowEl);
+
+        if (!isMainMaximized) {
+            centerWindow(windowEl, true);
+        }
+
+        if (titleSpan) {
+            titleSpan.textContent = `Oleg – ${page.title}`;
+        }
+        contentArea.innerHTML = `
+      <h1>${page.title}</h1>
+      ${page.html}
+    `;
+    }
+
+    /* --------------------------------------------------
+     * Games Window + BSOD
+     * -------------------------------------------------- */
+
+    function openGamesWindow() {
+        const gamesWindow = document.getElementById("popup-games");
+        const bsodScreen = document.getElementById("bsod-screen");
+        if (!gamesWindow || !bsodScreen) return;
+
+        if (!bsodShown) {
+            // First time: show BSOD, then open window
+            bsodShown = true;
+            bsodScreen.classList.remove("hidden");
+            bsodScreen.classList.add("shown");
+
+            setTimeout(() => {
+                bsodScreen.classList.add("hidden");
+                gamesWindow.classList.remove("hidden");
+                bringToFront(gamesWindow);
+                centerWindow(gamesWindow, false);
+            }, 1800);
+        } else {
+            // Next times: just toggle window
+            gamesWindow.classList.toggle("hidden");
+            if (!gamesWindow.classList.contains("hidden")) {
+                bringToFront(gamesWindow);
+            }
+        }
+    }
+
+    /* --------------------------------------------------
+     * Window Controls (minimize / maximize / close)
+     * -------------------------------------------------- */
+
+    function initWindowControls() {
+        const controls = document.querySelectorAll(".window-control");
+        controls.forEach((control) => {
+            control.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const action = control.dataset.action;
+                const targetId = control.dataset.target;
+
+                if (!action || !targetId) return;
+
+                switch (action) {
+                    case "minimize":
+                        minimizeWindow(targetId);
+                        break;
+                    case "maximize":
+                        // Currently only main window has maximize button
+                        toggleMainMaximize(targetId);
+                        break;
+                    case "close":
+                        closeWindow(targetId);
+                        break;
+                }
+            });
+        });
+    }
+
+    function minimizeWindow(targetId) {
+        const windowEl = document.getElementById(targetId);
+        const minimizedArea = document.getElementById("minimized-windows");
+        if (!windowEl || !minimizedArea) return;
+
+        windowEl.classList.add("hidden");
+
+        // Create a taskbar button if not already present
+        let existing = minimizedArea.querySelector(
+            `[data-restore="${targetId}"]`
+        );
+        if (!existing) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "taskbar-item";
+            btn.dataset.restore = targetId;
+
+            const windowTitle = windowEl.querySelector(".window-title");
+            btn.textContent = windowTitle ?
+                windowTitle.textContent :
+                "Window";
+
+            btn.addEventListener("click", () => {
+                // Toggle show/hide on click
+                const targetWindow = document.getElementById(targetId);
+                if (!targetWindow) return;
+                const hidden = targetWindow.classList.toggle("hidden");
+                if (!hidden) {
+                    bringToFront(targetWindow);
+                }
+            });
+
+            minimizedArea.appendChild(btn);
+        }
+    }
+
+    function toggleMainMaximize(targetId) {
+        const windowEl = document.getElementById(targetId);
+        if (!windowEl) return;
+
+        if (isMainMaximized) {
+            // Restore default centered size
+            centerWindow(windowEl, true);
+            isMainMaximized = false;
+        } else {
+            // Maximize to full viewport
+            windowEl.style.top = "0";
+            windowEl.style.left = "0";
+            windowEl.style.width = "100%";
+            windowEl.style.height = "100%";
+            windowEl.style.transform = "none";
+            isMainMaximized = true;
+        }
+
+        bringToFront(windowEl);
+    }
+
+    function closeWindow(targetId) {
+        const windowEl = document.getElementById(targetId);
+        if (!windowEl) return;
+        windowEl.classList.add("hidden");
+    }
+
+    /* --------------------------------------------------
+     * Z-index / Position / Dragging
+     * -------------------------------------------------- */
+
+    function bringToFront(element) {
+        highestZIndex += 1;
+        element.style.zIndex = String(highestZIndex);
+    }
+
+    function centerWindow(windowEl, isPrimary) {
+        // Basic defaults – can be adjusted in CSS as well
+        if (isPrimary) {
+            windowEl.style.width = "70%";
+            windowEl.style.height = "60%";
+        }
+        windowEl.style.top = "50%";
+        windowEl.style.left = "50%";
+        windowEl.style.transform = "translate(-50%, -50%)";
+    }
+
+    function initDragging() {
+        const dragState = {
+            active: false,
+            windowEl: null,
+            offsetX: 0,
+            offsetY: 0,
+        };
+
+        document.addEventListener("mousedown", (e) => {
+            const handle = e.target.closest(".drag-handle");
+            if (!handle) return;
+
+            const windowEl = handle.closest(".window");
+            if (!windowEl) return;
+
+            dragState.active = true;
+            dragState.windowEl = windowEl;
+            dragState.offsetX = e.clientX - windowEl.offsetLeft;
+            dragState.offsetY = e.clientY - windowEl.offsetTop;
+
+            // Once user drags, remove centering transform
+            windowEl.style.transform = "none";
+            bringToFront(windowEl);
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (!dragState.active || !dragState.windowEl) return;
+
+            const x = e.clientX - dragState.offsetX;
+            const y = e.clientY - dragState.offsetY;
+
+            dragState.windowEl.style.left = `${x}px`;
+            dragState.windowEl.style.top = `${y}px`;
+        });
+
+        document.addEventListener("mouseup", () => {
+            dragState.active = false;
+            dragState.windowEl = null;
+        });
+    }
+
+    /* --------------------------------------------------
+     * Clock
+     * -------------------------------------------------- */
+
+    function initClock() {
+        const clockEl = document.getElementById("taskbar-clock");
+        if (!clockEl) return;
+
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+            clockEl.textContent = timeString;
+        }
+
+        updateClock();
+        setInterval(updateClock, 60 * 1000); // update every minute
+    }
+})();
