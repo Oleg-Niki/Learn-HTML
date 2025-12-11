@@ -103,8 +103,13 @@
         items.forEach((item) => {
             item.addEventListener("click", (e) => {
                 e.preventDefault();
+                const action = item.dataset.action;
                 const target = item.dataset.open;
-                handleOpenTarget(target);
+                if (action) {
+                    handleStartAction(action);
+                } else {
+                    handleOpenTarget(target);
+                }
                 startMenu.classList.add("hidden");
             });
         });
@@ -169,6 +174,20 @@
         }
     }
 
+    function handleStartAction(action) {
+        switch (action) {
+            case "windows-update":
+                // Open external site in a new tab/window
+                window.open("https://www.nikitashin.com", "_blank", "noopener");
+                break;
+            case "shutdown":
+                // Attempt to close the tab if permitted; otherwise hide all windows
+                shutdownAll();
+                break;
+            default:
+                break;
+        }
+    }
     /* --------------------------------------------------
      * Content Windows (About / Gallery / Contact)
      * -------------------------------------------------- */
@@ -489,6 +508,13 @@
 
     function openEmailClient() {
         window.location.href = "mailto:nikitashin.ov@gmail.com";
+    }
+
+    function shutdownAll() {
+        const windows = document.querySelectorAll(".window");
+        windows.forEach((win) => hideWindow(win));
+        minimizedButtons.clear();
+        renderMinimizedButtons();
     }
 
     /* --------------------------------------------------
