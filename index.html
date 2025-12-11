@@ -65,28 +65,52 @@
 
     <!-- Start Menu -->
     <nav id="start-menu" class="start-menu hidden" aria-label="Start menu">
+        <div class="start-rail">
+            <span class="rail-text">
+        <span class="rail-word">Windows</span>
+            <span class="rail-number">98</span>
+            </span>
+        </div>
         <ul class="start-menu-list">
             <li>
                 <button type="button" class="start-menu-item" data-open="about">
-          About Me
-        </button>
+                    <img src="about-icon.png" alt="" class="start-menu-icon" aria-hidden="true">
+                    <span>About Me</span>
+                </button>
             </li>
             <li>
                 <button type="button" class="start-menu-item" data-open="gallery">
-          Project Gallery
-        </button>
+                    <img src="gallery-icon.png" alt="" class="start-menu-icon" aria-hidden="true">
+                    <span>Project Gallery</span>
+                </button>
             </li>
             <li>
                 <button type="button" class="start-menu-item" data-open="contact">
-          Contact
-        </button>
+                    <img src="contact-icon.png" alt="" class="start-menu-icon" aria-hidden="true">
+                    <span>Contact</span>
+                </button>
             </li>
             <li>
                 <button type="button" class="start-menu-item" data-open="games">
-          Tired? (Games)
-        </button>
+                    <img src="games-icon.png" alt="" class="start-menu-icon" aria-hidden="true">
+                    <span>Tired? (Games)</span>
+                </button>
             </li>
         </ul>
+        <div class="start-quick" aria-label="Quick actions">
+            <button type="button" class="start-quick-button" data-action="minimize-all">
+                <img src="window-icon.png" alt="" class="start-quick-icon" aria-hidden="true">
+                <span>Minimize All</span>
+            </button>
+            <button type="button" class="start-quick-button" data-action="open-ie">
+                <img src="start-98-icon.png" alt="" class="start-quick-icon" aria-hidden="true">
+                <span>Internet Explorer</span>
+            </button>
+            <button type="button" class="start-quick-button" data-action="email">
+                <img src="contact-icon.png" alt="" class="start-quick-icon" aria-hidden="true">
+                <span>Email</span>
+            </button>
+        </div>
     </nav>
 
     <!-- Main Window (dynamic content) -->
@@ -151,6 +175,47 @@
                     <img src="snake-icon.png" alt="Snake">
                     <span class="desktop-icon-label">Snake</span>
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Internet Explorer Sim Window -->
+    <section id="popup-ie" class="window window--ie hidden" role="dialog" aria-modal="false" aria-labelledby="ie-window-title">
+        <header class="window-titlebar drag-handle">
+            <div class="window-titlebar-left">
+                <img src="start-98-icon.png" alt="" class="window-title-icon" aria-hidden="true">
+                <span id="ie-window-title" class="window-title">
+          Internet Explorer
+        </span>
+            </div>
+            <div class="window-titlebar-controls">
+                <button type="button" class="window-control window-control--minimize" data-action="minimize" data-target="popup-ie" aria-label="Minimize">
+          _
+        </button>
+                <button type="button" class="window-control window-control--close" data-action="close" data-target="popup-ie" aria-label="Close">
+          X
+        </button>
+            </div>
+        </header>
+
+        <div class="window-body ie-body">
+            <div class="ie-shell">
+                <div class="ie-toolbar">
+                    <div class="ie-toolbar-left">Microsoft Internet Explorer</div>
+                    <div class="ie-toolbar-right">
+                        <span class="ie-dot"></span>
+                        <span class="ie-dot"></span>
+                        <span class="ie-dot"></span>
+                    </div>
+                </div>
+                <div class="ie-address-bar">
+                    <span class="ie-label">Address</span>
+                    <div class="ie-address">http://www.microsoft.com</div>
+                </div>
+                <div class="ie-content">
+                    <div class="ie-logo">e</div>
+                    <p>Welcome to a totally authentic 1998 browsing experience.</p>
+                </div>
             </div>
         </div>
     </section>

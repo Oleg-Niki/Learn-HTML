@@ -15,6 +15,11 @@
     --win98-titlebar-inactive: #808080;
     --win98-title-text: #ffffff;
     --win98-font: "MS Sans Serif", Tahoma, Geneva, Verdana, sans-serif;
+    --win98-navy: #000080;
+    --win98-cyan: #00a0a0;
+    --win98-gray: #c0c0c0;
+    --win98-shadow: #404040;
+    --win98-highlight: #ffffff;
 }
 
 *,
@@ -171,9 +176,9 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 3px 10px 4px;
+    padding: 4px 12px;
     font-family: var(--win98-font);
-    font-size: 12px;
+    font-size: 14px;
     background: #c0c0c0;
     border-top: 2px solid var(--win98-border-light);
     border-left: 2px solid var(--win98-border-light);
@@ -184,8 +189,8 @@ body {
 }
 
 .start-button-logo {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     background: url("start-98-icon.png") no-repeat center center;
     background-size: contain;
     image-rendering: pixelated;
@@ -193,6 +198,8 @@ body {
 
 .start-button-label {
     font-weight: bold;
+    font-size: 14px;
+    line-height: 1.1;
 }
 
 
@@ -265,23 +272,57 @@ body {
 
 .start-menu {
     position: fixed;
-    bottom: 32px;
-    left: 0;
-    width: 220px;
-    background: var(--win98-window-bg);
-    border-top: 2px solid var(--win98-border-light);
-    border-left: 2px solid var(--win98-border-light);
-    border-bottom: 2px solid var(--win98-border-dark);
-    border-right: 2px solid var(--win98-border-dark);
-    box-shadow: 3px 3px 0 #000000;
-    padding: 2px;
+    left: 4px;
+    bottom: 36px;
+    min-width: 260px;
     z-index: 200;
+    display: grid;
+    grid-template-columns: 40px 1fr 110px;
+    background: var(--win98-gray);
+    border: 2px solid var(--win98-shadow);
+    box-shadow: 2px 2px 0 var(--win98-shadow), -1px -1px 0 var(--win98-highlight);
+}
+
+.start-rail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, var(--win98-navy), var(--win98-cyan));
+    border-right: 2px solid var(--win98-shadow);
+    box-shadow: inset -1px 0 0 var(--win98-highlight);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    color: #fff;
+    font-family: "MS Sans Serif", "Tahoma", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 8px 6px;
+}
+
+.rail-text {
+    display: inline-block;
+    white-space: nowrap;
+    line-height: 1;
+    letter-spacing: 0;
+    transform: rotate(180deg);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.rail-word {
+    display: inline;
+    font-weight: 700;
+}
+
+.rail-number {
+    display: inline;
+    font-weight: 400;
 }
 
 .start-menu-list {
     list-style: none;
     margin: 0;
-    padding: 2px;
+    padding: 4px;
 }
 
 .start-menu-item {
@@ -293,12 +334,62 @@ body {
     background: transparent;
     border: none;
     cursor: default;
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    align-items: center;
+    gap: 6px;
 }
 
 .start-menu-item:hover,
 .start-menu-item:focus-visible {
     background: #000080;
     color: #ffffff;
+}
+
+.start-menu-icon {
+    width: 20px;
+    height: 20px;
+    image-rendering: pixelated;
+    filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.15));
+}
+
+.start-quick {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px 6px 6px 4px;
+    border-left: 1px solid var(--win98-border-medium);
+    background: linear-gradient(180deg, #d8d8d8, #c0c0c0);
+}
+
+.start-quick-button {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    font-family: var(--win98-font);
+    font-size: 11px;
+    background: #c0c0c0;
+    border-top: 2px solid var(--win98-border-light);
+    border-left: 2px solid var(--win98-border-light);
+    border-bottom: 2px solid var(--win98-border-dark);
+    border-right: 2px solid var(--win98-border-dark);
+    cursor: default;
+    text-align: left;
+}
+
+.start-quick-button:hover,
+.start-quick-button:focus-visible {
+    background: #000080;
+    color: #ffffff;
+}
+
+.start-quick-icon {
+    width: 18px;
+    height: 18px;
+    image-rendering: pixelated;
+    filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.15));
 }
 
 
@@ -350,6 +441,13 @@ body {
     height: 300px;
     min-width: 260px;
     min-height: 220px;
+}
+
+.window--ie {
+    width: 520px;
+    height: 380px;
+    min-width: 320px;
+    min-height: 260px;
 }
 
 
@@ -432,6 +530,96 @@ body {
 .window-body h1 {
     margin: 0 0 8px;
     font-size: 16px;
+}
+
+.ie-body {
+    background: #ffffff;
+}
+
+.ie-shell {
+    border: 1px solid var(--win98-border-medium);
+    background: #f8f8f8;
+    box-shadow: inset 1px 1px 0 var(--win98-border-light);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ie-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 6px;
+    background: linear-gradient(180deg, #dcdcdc, #c8c8c8);
+    border-bottom: 1px solid var(--win98-border-medium);
+    font-size: 11px;
+    color: #000000;
+}
+
+.ie-toolbar-right {
+    display: flex;
+    gap: 4px;
+}
+
+.ie-dot {
+    width: 8px;
+    height: 8px;
+    background: #000080;
+    border: 1px solid #ffffff;
+    box-shadow: 1px 1px 0 #404040;
+}
+
+.ie-address-bar {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    background: #efefef;
+    border-bottom: 1px solid var(--win98-border-medium);
+    font-size: 11px;
+}
+
+.ie-label {
+    font-weight: bold;
+}
+
+.ie-address {
+    background: #ffffff;
+    border: 1px solid var(--win98-border-medium);
+    padding: 4px 6px;
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    color: #000000;
+}
+
+.ie-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #ffffff;
+    color: #000000;
+    font-size: 12px;
+    padding: 12px;
+}
+
+.ie-logo {
+    width: 72px;
+    height: 72px;
+    border: 4px solid #000080;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: bold;
+    color: #000080;
+    box-shadow: 2px 2px 0 #404040;
+    background: #d0e6ff;
+    text-transform: lowercase;
 }
 
 

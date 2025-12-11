@@ -101,6 +101,16 @@
                 startMenu.classList.add("hidden");
             });
         });
+
+        // Quick action buttons on the right
+        const quickButtons = startMenu.querySelectorAll(".start-quick-button");
+        quickButtons.forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                const action = btn.dataset.action;
+                handleQuickAction(action);
+            });
+        });
     }
 
     function initGlobalClickHandlers() {
@@ -128,6 +138,27 @@
 
         // Otherwise it's a page for the main window
         openMainWindowWithPage(target);
+    }
+
+    function handleQuickAction(action) {
+        const startMenu = document.getElementById("start-menu");
+        if (startMenu) {
+            startMenu.classList.add("hidden");
+        }
+
+        switch (action) {
+            case "minimize-all":
+                minimizeAllWindows();
+                break;
+            case "open-ie":
+                openInternetExplorerWindow();
+                break;
+            case "email":
+                openEmailClient();
+                break;
+            default:
+                break;
+        }
     }
 
     /* --------------------------------------------------
@@ -256,6 +287,15 @@
         }
     }
 
+    function minimizeAllWindows() {
+        const windows = document.querySelectorAll(".window");
+        windows.forEach((win) => {
+            if (win.id) {
+                minimizeWindow(win.id);
+            }
+        });
+    }
+
     function toggleMainMaximize(targetId) {
         const windowEl = document.getElementById(targetId);
         if (!windowEl) return;
@@ -342,6 +382,18 @@
             dragState.active = false;
             dragState.windowEl = null;
         });
+    }
+
+    function openInternetExplorerWindow() {
+        const ieWindow = document.getElementById("popup-ie");
+        if (!ieWindow) return;
+        ieWindow.classList.remove("hidden");
+        bringToFront(ieWindow);
+        centerWindow(ieWindow, false);
+    }
+
+    function openEmailClient() {
+        window.location.href = "mailto:nikitashin.ov@gmail.com";
     }
 
     /* --------------------------------------------------
