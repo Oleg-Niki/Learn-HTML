@@ -137,6 +137,21 @@
                 e.preventDefault();
                 startDrag(touch, icon);
             }, { passive: false });
+
+            icon.addEventListener("touchend", (e) => {
+                if (dragState.moved) {
+                    dragState.moved = false;
+                    return;
+                }
+                const now = Date.now();
+                const lastTap = Number(icon.dataset.lastTap || 0);
+                if (now - lastTap < 300) {
+                    e.preventDefault();
+                    const target = icon.dataset.open;
+                    handleOpenTarget(target);
+                }
+                icon.dataset.lastTap = String(now);
+            });
         });
 
         document.addEventListener("mousemove", (e) => {
