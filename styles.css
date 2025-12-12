@@ -328,27 +328,31 @@ body {
 
 .start-rail {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to bottom, var(--win98-navy), var(--win98-cyan));
+    align-items: stretch;
+    justify-content: flex-start;
+    position: relative;
+    background: var(--win98-navy);
     border-right: 2px solid var(--win98-shadow);
     box-shadow: inset -1px 0 0 var(--win98-highlight);
     writing-mode: vertical-rl;
     text-orientation: mixed;
     color: #fff;
     font-family: "MS Sans Serif", "Tahoma", sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    padding: 8px 6px;
+    padding: 0 6px;
 }
 
 .rail-text {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
     display: inline-block;
     white-space: nowrap;
     line-height: 1;
     letter-spacing: 0;
-    transform: rotate(180deg);
+    transform: translateX(-50%) rotate(180deg);
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
 }
 
