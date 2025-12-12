@@ -89,18 +89,28 @@
             offsetX: 0,
             offsetY: 0,
             moved: false,
+            startX: 0,
+            startY: 0,
         };
 
         const startDrag = (point, icon) => {
             dragState.active = true;
             dragState.icon = icon;
             dragState.moved = false;
+            dragState.startX = point.clientX;
+            dragState.startY = point.clientY;
             dragState.offsetX = point.clientX - icon.offsetLeft;
             dragState.offsetY = point.clientY - icon.offsetTop;
         };
 
         const moveDrag = (point) => {
             if (!dragState.active || !dragState.icon) return;
+            const deltaX = Math.abs(point.clientX - dragState.startX);
+            const deltaY = Math.abs(point.clientY - dragState.startY);
+            const slop = 6;
+            if (!dragState.moved && deltaX < slop && deltaY < slop) {
+                return;
+            }
             dragState.moved = true;
             const maxX = desktop.clientWidth - dragState.icon.offsetWidth;
             const maxY = desktop.clientHeight - dragState.icon.offsetHeight;
@@ -139,19 +149,20 @@
             }, { passive: false });
 
             icon.addEventListener("touchend", (e) => {
+                if (e.cancelable) e.preventDefault();
                 if (dragState.moved) {
                     dragState.moved = false;
                     return;
                 }
                 const now = Date.now();
                 const lastTap = Number(icon.dataset.lastTap || 0);
-                if (now - lastTap < 300) {
-                    e.preventDefault();
+                if (now - lastTap < 350) {
+                    if (e.cancelable) e.preventDefault();
                     const target = icon.dataset.open;
                     handleOpenTarget(target);
                 }
                 icon.dataset.lastTap = String(now);
-            });
+            }, { passive: false });
         });
 
         document.addEventListener("mousemove", (e) => {
