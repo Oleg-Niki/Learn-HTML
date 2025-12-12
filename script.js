@@ -3,7 +3,7 @@
 (() => {
     let highestZIndex = 10;
     let bsodShown = false;
-    const minimizedButtons = new Set();
+    const openWindows = new Set();
     const maximizedWindows = new Set();
     const PAGE_ICONS = {
         about: "about-icon.png",
@@ -325,9 +325,7 @@
         if (!windowEl) return;
 
         hideWindow(windowEl);
-
-        minimizedButtons.add(targetId);
-        renderMinimizedButtons();
+        renderTaskbarButtons();
     }
 
     function minimizeAllWindows() {
@@ -363,8 +361,8 @@
         const windowEl = document.getElementById(targetId);
         if (!windowEl) return;
         hideWindow(windowEl);
-        minimizedButtons.delete(targetId);
-        renderMinimizedButtons();
+        openWindows.delete(targetId);
+        renderTaskbarButtons();
 
         // Reset position so next open recenters
         windowEl.style.top = "50%";
@@ -387,6 +385,10 @@
         windowEl.classList.remove("hidden");
         windowEl.style.display = "";
         bringToFront(windowEl);
+        if (windowEl.id) {
+            openWindows.add(windowEl.id);
+            renderTaskbarButtons();
+        }
     }
 
     function hideWindow(windowEl) {
@@ -394,24 +396,36 @@
         windowEl.style.display = "none";
     }
 
-    function renderMinimizedButtons() {
+    function renderTaskbarButtons() {
         const minimizedArea = document.getElementById("minimized-windows");
         if (!minimizedArea) return;
         minimizedArea.innerHTML = "";
 
-        minimizedButtons.forEach((id) => {
+        const entries = [];
+        openWindows.forEach((id) => {
             const windowEl = document.getElementById(id);
-            if (!windowEl) {
-                minimizedButtons.delete(id);
-                return;
+            if (windowEl) {
+                const titleEl = windowEl.querySelector(".window-title");
+                const title = titleEl ? titleEl.textContent.trim() : "Window";
+                const hidden =
+                    windowEl.classList.contains("hidden") ||
+                    windowEl.style.display === "none";
+                entries.push({ id, title, hidden });
             }
+        });
+
+        const counts = entries.reduce((acc, { title }) => {
+            acc[title] = (acc[title] || 0) + 1;
+            return acc;
+        }, {});
+
+        entries.forEach(({ id, title, hidden }) => {
             const btn = document.createElement("button");
             btn.type = "button";
             btn.className = "taskbar-item";
             btn.dataset.restore = id;
-
-            const windowTitle = windowEl.querySelector(".window-title");
-            btn.textContent = windowTitle ? windowTitle.textContent : "Window";
+            const suffix = counts[title] > 1 ? ` (${counts[title]})` : "";
+            btn.textContent = `${title}${suffix}`;
 
             btn.addEventListener("click", () => {
                 const targetWindow = document.getElementById(id);
@@ -420,16 +434,15 @@
                     targetWindow.classList.contains("hidden") ||
                     targetWindow.style.display === "none";
                 if (isHidden) {
-                    minimizedButtons.delete(id);
                     showWindow(targetWindow);
                     centerWindow(
                         targetWindow,
-                        targetWindow.id === "main-content"
+                        targetWindow.classList.contains("window--primary")
                     );
-                    renderMinimizedButtons();
                 } else {
                     minimizeWindow(id);
                 }
+                renderTaskbarButtons();
             });
 
             minimizedArea.appendChild(btn);
@@ -513,8 +526,8 @@
     function shutdownAll() {
         const windows = document.querySelectorAll(".window");
         windows.forEach((win) => hideWindow(win));
-        minimizedButtons.clear();
-        renderMinimizedButtons();
+        openWindows.clear();
+        renderTaskbarButtons();
     }
 
     /* --------------------------------------------------
