@@ -247,6 +247,10 @@
             openNotepadWindow();
             return;
         }
+        if (target === "dos") {
+            openDosWindow();
+            return;
+        }
 
         // Otherwise it's a standalone content window
         openContentWindow(target);
@@ -646,6 +650,16 @@
         centerWindow(noteWindow, false);
     }
 
+    function openDosWindow() {
+        const dosWindow = document.getElementById("popup-dos");
+        if (!dosWindow) return;
+        showWindow(dosWindow);
+        centerWindow(dosWindow, false);
+        initDos();
+        const input = document.getElementById("dos-input");
+        if (input) input.focus();
+    }
+
     function openEmailClient() {
         window.location.href = "mailto:nikitashin.ov@gmail.com";
     }
@@ -676,5 +690,101 @@
 
         updateClock();
         setInterval(updateClock, 60 * 1000); // update every minute
+    }
+
+    /* --------------------------------------------------
+     * DOS Prompt
+     * -------------------------------------------------- */
+
+    function initDos() {
+        const screen = document.getElementById("dos-screen");
+        const input = document.getElementById("dos-input");
+        if (!screen || !input) return;
+
+        if (!screen.dataset.initialized) {
+            screen.textContent = "Microsoft(R) Windows 98\n(C)Copyright Microsoft Corp 1981-1999\n\nC:\\>";
+            screen.dataset.initialized = "true";
+        }
+
+        input.onkeydown = (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                runDosCommand(input.value.trim(), screen);
+                input.value = "";
+                scrollDos(screen);
+            }
+        };
+    }
+
+    function runDosCommand(cmd, screen) {
+        if (!cmd) {
+            appendDosLine(screen, "C:\\>");
+            return;
+        }
+        const parts = cmd.split(" ");
+        const base = parts[0].toLowerCase();
+        switch (base) {
+            case "dir":
+                appendDosLine(
+                    screen,
+                    " Volume in drive C has no label.\n Directory of C:\\\n\n ABOUTME     <DIR>\n PROJECTGALLERY <DIR>\n CONTACT     <DIR>\n GAMES       <DIR>\n NOTEPAD     EXE\n"
+                );
+                break;
+            case "cd":
+                if (!parts[1]) {
+                    appendDosLine(screen, "Path not found");
+                    break;
+                }
+                switch (parts[1].toLowerCase()) {
+                    case "aboutme":
+                        appendDosLine(screen, "Opening ABOUT ME...");
+                        openContentWindow("about");
+                        break;
+                    case "contact":
+                        appendDosLine(screen, "Opening CONTACT...");
+                        openContentWindow("contact");
+                        break;
+                    case "projectgallery":
+                        appendDosLine(screen, "Opening PROJECT GALLERY...");
+                        openContentWindow("gallery");
+                        break;
+                    case "games":
+                        appendDosLine(screen, "Opening GAMES...");
+                        openGamesWindow();
+                        break;
+                    case "notepad":
+                        appendDosLine(screen, "Opening NOTEPAD...");
+                        openNotepadWindow();
+                        break;
+                    default:
+                        appendDosLine(screen, "Path not found");
+                        break;
+                }
+                break;
+            case "help":
+                appendDosLine(
+                    screen,
+                    "Supported commands: DIR, CD ABOUT-ME, HELP, CLS, EXIT"
+                );
+                break;
+            case "cls":
+                screen.textContent = "";
+                break;
+            case "exit":
+                const win = document.getElementById("popup-dos");
+                if (win) hideWindow(win);
+                break;
+            default:
+                appendDosLine(screen, `'${cmd}' is not recognized as an internal or external command.`);
+        }
+        appendDosLine(screen, "C:\\>");
+    }
+
+    function appendDosLine(screen, text) {
+        screen.textContent += `\n${text}`;
+    }
+
+    function scrollDos(screen) {
+        screen.scrollTop = screen.scrollHeight;
     }
 })();

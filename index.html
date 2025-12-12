@@ -47,6 +47,11 @@
       <img src="notepad-icon.png" alt="Notepad">
       <span class="desktop-icon-label">Notepad</span>
     </button>
+
+        <button type="button" class="desktop-icon" data-open="dos">
+      <img src="ms_dos-icon.png" alt="MS-DOS">
+      <span class="desktop-icon-label">MS-DOS</span>
+    </button>
     </main>
 
     <!-- Taskbar -->
@@ -263,6 +268,37 @@
 
         <div class="window-body notepad-body">
             <textarea id="notepad-editor" class="notepad-editor" aria-label="Notepad editor" spellcheck="false"></textarea>
+        </div>
+    </section>
+
+    <!-- MS-DOS Prompt -->
+    <section id="popup-dos" class="window window--dos hidden" role="dialog" aria-modal="false" aria-labelledby="dos-window-title">
+        <header class="window-titlebar drag-handle">
+            <div class="window-titlebar-left">
+                <img src="ms_dos-icon.png" alt="" class="window-title-icon" aria-hidden="true">
+                <span id="dos-window-title" class="window-title">
+          MS-DOS Prompt
+        </span>
+            </div>
+            <div class="window-titlebar-controls">
+                <button type="button" class="window-control window-control--minimize" data-action="minimize" data-target="popup-dos" aria-label="Minimize">
+          _
+        </button>
+                <button type="button" class="window-control window-control--maximize" data-action="maximize" data-target="popup-dos" aria-label="Maximize">
+          ▢
+        </button>
+                <button type="button" class="window-control window-control--close" data-action="close" data-target="popup-dos" aria-label="Close">
+          X
+        </button>
+            </div>
+        </header>
+
+        <div class="window-body dos-body">
+            <div id="dos-screen" class="dos-screen" role="log" aria-live="polite"></div>
+            <div class="dos-input-row">
+                <span class="dos-prompt">C:\></span>
+                <input id="dos-input" class="dos-input" type="text" aria-label="Command prompt" autocomplete="off">
+            </div>
         </div>
     </section>
 </body>

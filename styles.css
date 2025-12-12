@@ -461,6 +461,12 @@ body {
     min-height: 240px;
 }
 
+.window--dos {
+    width: 520px;
+    height: 360px;
+    min-width: 320px;
+    min-height: 240px;
+}
 
 /* Titlebar */
 
@@ -560,6 +566,49 @@ body {
     box-sizing: border-box;
     background: #ffffff;
     color: #000000;
+}
+
+.dos-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #000000;
+    color: #00ff00;
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+    padding: 6px;
+}
+
+.dos-screen {
+    flex: 1;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    background: #000000;
+    color: #00ff00;
+}
+
+.dos-input-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dos-prompt {
+    color: #00ff00;
+}
+
+.dos-input {
+    flex: 1;
+    background: #000000;
+    color: #00ff00;
+    border: 1px solid var(--win98-border-medium);
+    padding: 4px 6px;
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+}
+
+.dos-input:focus {
+    outline: 1px dotted #00ff00;
 }
 
 .ie-body {
