@@ -77,13 +77,108 @@
      * -------------------------------------------------- */
 
     function initDesktopIcons() {
-        const icons = document.querySelectorAll(".desktop-icon");
+        const desktop = document.getElementById("desktop");
+        if (!desktop) return;
+
+        const icons = desktop.querySelectorAll(".desktop-icon");
+        setInitialIconPositions(icons, desktop);
+
+        const dragState = {
+            active: false,
+            icon: null,
+            offsetX: 0,
+            offsetY: 0,
+            moved: false,
+        };
+
+        const startDrag = (point, icon) => {
+            dragState.active = true;
+            dragState.icon = icon;
+            dragState.moved = false;
+            dragState.offsetX = point.clientX - icon.offsetLeft;
+            dragState.offsetY = point.clientY - icon.offsetTop;
+        };
+
+        const moveDrag = (point) => {
+            if (!dragState.active || !dragState.icon) return;
+            dragState.moved = true;
+            const maxX = desktop.clientWidth - dragState.icon.offsetWidth;
+            const maxY = desktop.clientHeight - dragState.icon.offsetHeight;
+            const x = Math.min(Math.max(point.clientX - dragState.offsetX, 0), maxX);
+            const y = Math.min(Math.max(point.clientY - dragState.offsetY, 0), maxY);
+            dragState.icon.style.left = `${x}px`;
+            dragState.icon.style.top = `${y}px`;
+        };
+
+        const endDrag = () => {
+            dragState.active = false;
+            dragState.icon = null;
+        };
+
         icons.forEach((icon) => {
             icon.addEventListener("click", (e) => {
+                if (dragState.moved) {
+                    dragState.moved = false;
+                    return;
+                }
                 e.preventDefault();
                 const target = icon.dataset.open;
                 handleOpenTarget(target);
             });
+
+            icon.addEventListener("mousedown", (e) => {
+                e.preventDefault();
+                startDrag(e, icon);
+            });
+
+            icon.addEventListener("touchstart", (e) => {
+                const touch = e.touches[0];
+                if (!touch) return;
+                e.preventDefault();
+                startDrag(touch, icon);
+            }, { passive: false });
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            moveDrag(e);
+        });
+
+        document.addEventListener("touchmove", (e) => {
+            const touch = e.touches[0];
+            if (!touch) return;
+            e.preventDefault();
+            moveDrag(touch);
+        }, { passive: false });
+
+        document.addEventListener("mouseup", endDrag);
+        document.addEventListener("touchend", endDrag);
+    }
+
+    function setInitialIconPositions(icons, desktop) {
+        if (!icons.length) return;
+
+        const gap = 16;
+        const startX = 12;
+        const startY = 12;
+        let x = startX;
+        let y = startY;
+
+        // Use the first icon's rendered size as a baseline
+        const sample = icons[0];
+        const iconWidth = sample.offsetWidth || 96;
+        const iconHeight = sample.offsetHeight || 72;
+        const maxY = desktop.clientHeight - iconHeight - gap;
+
+        icons.forEach((icon) => {
+            icon.style.left = `${x}px`;
+            icon.style.top = `${y}px`;
+
+            // Advance down; wrap to next column if we run past the desktop height
+            y += iconHeight + gap;
+            if (y > maxY) {
+                y = startY;
+                x += iconWidth + gap;
+            }
         });
     }
 
@@ -468,19 +563,16 @@
             offsetY: 0,
         };
 
-        document.addEventListener("mousedown", (e) => {
+        const startDrag = (point, target) => {
             // Ignore clicks on window control buttons so they don't initiate drag
-            if (e.target.closest(".window-control")) {
-                return;
-            }
+            if (target.closest(".window-control")) return;
 
-            const handle = e.target.closest(".drag-handle");
+            const handle = target.closest(".drag-handle");
             if (!handle) return;
 
             const windowEl = handle.closest(".window");
             if (!windowEl) return;
 
-            // Convert current transform-based centering to absolute coords for dragging
             const rect = windowEl.getBoundingClientRect();
             const absLeft = rect.left + window.scrollX;
             const absTop = rect.top + window.scrollY;
@@ -490,25 +582,49 @@
 
             dragState.active = true;
             dragState.windowEl = windowEl;
-            dragState.offsetX = e.clientX - absLeft;
-            dragState.offsetY = e.clientY - absTop;
+            dragState.offsetX = point.clientX - absLeft;
+            dragState.offsetY = point.clientY - absTop;
             bringToFront(windowEl);
-        });
+        };
 
-        document.addEventListener("mousemove", (e) => {
+        const moveDrag = (point) => {
             if (!dragState.active || !dragState.windowEl) return;
 
-            const x = e.clientX - dragState.offsetX;
-            const y = e.clientY - dragState.offsetY;
+            const x = point.clientX - dragState.offsetX;
+            const y = point.clientY - dragState.offsetY;
 
             dragState.windowEl.style.left = `${x}px`;
             dragState.windowEl.style.top = `${y}px`;
-        });
+        };
 
-        document.addEventListener("mouseup", () => {
+        const endDrag = () => {
             dragState.active = false;
             dragState.windowEl = null;
+        };
+
+        document.addEventListener("mousedown", (e) => {
+            startDrag(e, e.target);
         });
+
+        document.addEventListener("mousemove", (e) => {
+            moveDrag(e);
+        });
+
+        document.addEventListener("mouseup", endDrag);
+
+        document.addEventListener("touchstart", (e) => {
+            const touch = e.touches[0];
+            if (!touch) return;
+            startDrag(touch, e.target);
+        }, { passive: true });
+
+        document.addEventListener("touchmove", (e) => {
+            const touch = e.touches[0];
+            if (!touch) return;
+            moveDrag(touch);
+        }, { passive: true });
+
+        document.addEventListener("touchend", endDrag);
     }
 
     function openInternetExplorerWindow() {
