@@ -243,6 +243,10 @@
             openGamesWindow();
             return;
         }
+        if (target === "notepad") {
+            openNotepadWindow();
+            return;
+        }
 
         // Otherwise it's a standalone content window
         openContentWindow(target);
@@ -633,6 +637,13 @@
         showWindow(ieWindow);
         bringToFront(ieWindow);
         centerWindow(ieWindow, false);
+    }
+
+    function openNotepadWindow() {
+        const noteWindow = document.getElementById("popup-notepad");
+        if (!noteWindow) return;
+        showWindow(noteWindow);
+        centerWindow(noteWindow, false);
     }
 
     function openEmailClient() {

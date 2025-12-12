@@ -454,6 +454,13 @@ body {
     min-height: 260px;
 }
 
+.window--notepad {
+    width: 500px;
+    height: 400px;
+    min-width: 300px;
+    min-height: 240px;
+}
+
 
 /* Titlebar */
 
@@ -534,6 +541,25 @@ body {
 .window-body h1 {
     margin: 0 0 8px;
     font-size: 16px;
+}
+
+.notepad-body {
+    padding: 4px;
+    background: #ffffff;
+}
+
+.notepad-editor {
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--win98-border-medium);
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    resize: none;
+    padding: 6px;
+    box-sizing: border-box;
+    background: #ffffff;
+    color: #000000;
 }
 
 .ie-body {

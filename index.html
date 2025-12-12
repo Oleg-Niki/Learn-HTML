@@ -42,6 +42,11 @@
       <img src="games-icon.png" alt="Tired? Games">
       <span class="desktop-icon-label">Tired?</span>
     </button>
+
+        <button type="button" class="desktop-icon" data-open="notepad">
+      <img src="notepad-icon.png" alt="Notepad">
+      <span class="desktop-icon-label">Notepad</span>
+    </button>
     </main>
 
     <!-- Taskbar -->
@@ -231,6 +236,33 @@
                     <p>Welcome to a totally authentic 1998 browsing experience.</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Notepad Window -->
+    <section id="popup-notepad" class="window window--notepad hidden" role="dialog" aria-modal="false" aria-labelledby="notepad-window-title">
+        <header class="window-titlebar drag-handle">
+            <div class="window-titlebar-left">
+                <img src="notepad-icon.png" alt="" class="window-title-icon" aria-hidden="true">
+                <span id="notepad-window-title" class="window-title">
+          Notepad
+        </span>
+            </div>
+            <div class="window-titlebar-controls">
+                <button type="button" class="window-control window-control--minimize" data-action="minimize" data-target="popup-notepad" aria-label="Minimize">
+          _
+        </button>
+                <button type="button" class="window-control window-control--maximize" data-action="maximize" data-target="popup-notepad" aria-label="Maximize">
+          ▢
+        </button>
+                <button type="button" class="window-control window-control--close" data-action="close" data-target="popup-notepad" aria-label="Close">
+          X
+        </button>
+            </div>
+        </header>
+
+        <div class="window-body notepad-body">
+            <textarea id="notepad-editor" class="notepad-editor" aria-label="Notepad editor" spellcheck="false"></textarea>
         </div>
     </section>
 </body>
