@@ -532,6 +532,21 @@ body {
     border-right: 2px solid var(--win98-border-light);
 }
 
+.window-control--maximize {
+    font-size: 0;
+}
+
+.window-control--maximize::before {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 8px;
+    margin: 3px auto 0;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    background: transparent;
+}
+
 
 /* Window Body */
 
@@ -716,6 +731,165 @@ body {
     justify-content: flex-start;
     gap: 16px;
     padding: 8px;
+}
+
+/* ================================
+   Project Gallery Window
+   ================================ */
+
+.folder-window {
+    border: 1px solid var(--win98-border-medium);
+    background: #ffffff;
+    box-shadow: inset 1px 1px 0 var(--win98-border-light);
+    padding: 4px 4px 0;
+}
+
+.folder-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg, #dcdcdc, #c8c8c8);
+    border: 1px solid var(--win98-border-medium);
+    padding: 4px 6px;
+    font-size: 11px;
+    margin-bottom: 4px;
+}
+
+.folder-path {
+    font-family: "Courier New", monospace;
+    font-weight: bold;
+}
+
+.folder-count {
+    font-size: 11px;
+}
+
+.project-folders {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px;
+    background: #ffffff;
+    border: 1px solid var(--win98-border-medium);
+    min-height: 180px;
+}
+
+.project-folders--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px 20px;
+    padding: 12px;
+    background: transparent;
+    border: none;
+}
+
+.project-folder {
+    width: 120px;
+    background: transparent;
+    border: 1px solid transparent;
+    appearance: none;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: default;
+    color: #000000;
+    font-family: var(--win98-font);
+    font-size: 11px;
+    text-align: center;
+}
+
+.project-folder:hover {
+    background: rgba(0, 0, 128, 0.15);
+    border: 1px dotted #000080;
+}
+
+.project-folder:focus-visible {
+    background: rgba(0, 0, 128, 0.15);
+    border: 1px dotted #000080;
+    outline: none;
+}
+
+.project-folder:focus-visible {
+    outline: 1px dotted #000080;
+    outline-offset: 2px;
+}
+
+.project-folder-icon img {
+    width: 48px;
+    height: 48px;
+    image-rendering: pixelated;
+}
+
+.project-folder .desktop-icon-label {
+    text-shadow: none;
+    color: #000000;
+}
+
+.folder-status {
+    margin-top: 4px;
+    background: #efefef;
+    border: 1px solid var(--win98-border-medium);
+    padding: 4px 6px;
+    font-size: 11px;
+}
+
+.window--folder {
+    width: 460px;
+    height: 360px;
+    min-width: 280px;
+    min-height: 240px;
+}
+
+.folder-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.folder-body-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+}
+
+.folder-body-path {
+    font-family: "Courier New", monospace;
+    font-weight: bold;
+}
+
+.folder-body-meta {
+    color: #444444;
+    font-size: 11px;
+}
+
+.folder-body-text {
+    margin: 0;
+}
+
+.folder-body-pane {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.folder-body-icon img {
+    width: 48px;
+    height: 48px;
+    image-rendering: pixelated;
+}
+
+.folder-body-list p {
+    margin: 0 0 4px;
+    font-weight: bold;
+}
+
+.folder-body-list ul {
+    margin: 0;
+    padding-left: 16px;
 }
 
 

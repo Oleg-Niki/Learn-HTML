@@ -5,11 +5,76 @@
     let bsodShown = false;
     const openWindows = new Set();
     const maximizedWindows = new Set();
+    const windowRestoreState = new Map();
+    const MAXIMIZE_LABEL = "";
     const PAGE_ICONS = {
         about: "about-icon.png",
         gallery: "gallery-icon.png",
         contact: "contact-icon.png",
     };
+
+    const PROJECT_FOLDERS = [
+        {
+            id: "engr210",
+            title: "Engr Graphics - Moustrap Car",
+            icon: "engr210-icon.png",
+            contents: [
+                "Design sketches",
+                "3D CAD iterations",
+                "Machining + assembly photos",
+            ],
+        },
+        {
+            id: "engr230",
+            title: "Engr 230 Statics - Truss Bridge Design",
+            icon: "engr230-icon.png",
+            contents: [
+                "Free-body diagrams",
+                "Load cases + stress calcs",
+                "Final bridge render",
+            ],
+        },
+        {
+            id: "engr270",
+            title: "Engr 270 Material Science",
+            icon: "engr270-icon.png",
+            contents: [
+                "Lab notes",
+                "Microstructure images",
+                "Material property charts",
+            ],
+        },
+        {
+            id: "susty",
+            title: "Sustainability Project",
+            icon: "susty-icon.png",
+            contents: [
+                "Concept brief",
+                "Energy model snapshots",
+                "Pilot build photos",
+            ],
+        },
+        {
+            id: "racing",
+            title: "Racing",
+            icon: "racing-icon.png",
+            contents: [
+                "Chassis setup notes",
+                "Data logs",
+                "Trackside gallery",
+            ],
+        },
+        {
+            id: "diy",
+            title: "DIY Projects",
+            icon: "diy-icon.png",
+            contents: [
+                "Shop jigs",
+                "Electronics experiments",
+                "Random builds",
+            ],
+        },
+    ];
 
     const PAGES = {
         about: {
@@ -53,6 +118,8 @@
       `,
         },
     };
+
+    PAGES.gallery.html = renderGalleryHTML();
 
     document.addEventListener("DOMContentLoaded", init);
 
@@ -335,11 +402,17 @@
         } else {
             const contentArea = windowEl.querySelector(".window-body");
             if (contentArea) {
+                const pageContent =
+                    pageKey === "gallery" ? renderGalleryHTML() : page.html;
                 contentArea.innerHTML = `
           <h1>${page.title}</h1>
-          ${page.html}
+          ${pageContent}
         `;
             }
+        }
+
+        if (pageKey === "gallery") {
+            wireProjectFolders(windowEl);
         }
 
         showWindow(windowEl);
@@ -348,6 +421,7 @@
 
     function createContentWindow(id, pageKey, page) {
         const icon = PAGE_ICONS[pageKey] || "about-icon.png";
+        const pageContent = pageKey === "gallery" ? renderGalleryHTML() : page.html;
         const section = document.createElement("section");
         section.id = id;
         section.className = "window window--primary hidden";
@@ -368,7 +442,7 @@
             _
           </button>
           <button type="button" class="window-control window-control--maximize" data-action="maximize" data-target="${id}" aria-label="Maximize">
-            ▢
+            ${MAXIMIZE_LABEL}
           </button>
           <button type="button" class="window-control window-control--close" data-action="close" data-target="${id}" aria-label="Close">
             X
@@ -377,11 +451,136 @@
       </header>
       <div class="window-body">
         <h1>${page.title}</h1>
-        ${page.html}
+        ${pageContent}
       </div>
     `;
 
         return section;
+    }
+
+    function renderGalleryHTML() {
+        const folders = PROJECT_FOLDERS.map(
+            (folder) => `
+          <button type="button" class="project-folder" data-folder="${folder.id}" aria-label="${folder.title}">
+            <span class="project-folder-icon">
+              <img src="${folder.icon}" alt="${folder.title}">
+            </span>
+            <span class="desktop-icon-label">${folder.title}</span>
+          </button>
+        `
+        ).join("");
+
+        return `
+        <div class="project-folders project-folders--grid" aria-label="Project folders">
+          ${folders}
+        </div>
+      `;
+    }
+
+    function wireProjectFolders(windowEl) {
+        const folderArea = windowEl.querySelector(".project-folders");
+        if (!folderArea || folderArea.dataset.bound === "true") return;
+        folderArea.dataset.bound = "true";
+
+        const activateFolder = (target) => {
+            if (!target) return;
+            const folderId = target.dataset.folder;
+            if (!folderId) return;
+            openProjectFolder(folderId);
+        };
+
+        folderArea.addEventListener("dblclick", (e) => {
+            const target = e.target.closest("[data-folder]");
+            activateFolder(target);
+        });
+
+        folderArea.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                const target = e.target.closest("[data-folder]");
+                activateFolder(target);
+            }
+        });
+    }
+
+    function openProjectFolder(folderId) {
+        const folder = PROJECT_FOLDERS.find((f) => f.id === folderId);
+        if (!folder) return;
+
+        const windowId = `project-${folder.id}`;
+        let windowEl = document.getElementById(windowId);
+
+        if (!windowEl) {
+            windowEl = document.createElement("section");
+            windowEl.id = windowId;
+            windowEl.className = "window window--folder hidden";
+            windowEl.setAttribute("role", "dialog");
+            windowEl.setAttribute("aria-modal", "false");
+            windowEl.setAttribute("aria-labelledby", `${windowId}-title`);
+            windowEl.innerHTML = buildFolderWindow(folder, windowId);
+            document.body.appendChild(windowEl);
+            wireWindowControls(windowEl);
+        } else {
+            const body = windowEl.querySelector(".window-body");
+            if (body) {
+                body.innerHTML = renderProjectFolderBody(folder);
+            }
+        }
+
+        showWindow(windowEl);
+        centerWindow(windowEl, false);
+    }
+
+    function buildFolderWindow(folder, windowId) {
+        return `
+      <header class="window-titlebar drag-handle">
+        <div class="window-titlebar-left">
+          <img src="${folder.icon}" alt="" class="window-title-icon" aria-hidden="true">
+          <span id="${windowId}-title" class="window-title">${folder.title}</span>
+        </div>
+        <div class="window-titlebar-controls">
+          <button type="button" class="window-control window-control--minimize" data-action="minimize" data-target="${windowId}" aria-label="Minimize">
+            _
+          </button>
+          <button type="button" class="window-control window-control--maximize" data-action="maximize" data-target="${windowId}" aria-label="Maximize">
+            ${MAXIMIZE_LABEL}
+          </button>
+          <button type="button" class="window-control window-control--close" data-action="close" data-target="${windowId}" aria-label="Close">
+            X
+          </button>
+        </div>
+      </header>
+      <div class="window-body">
+        ${renderProjectFolderBody(folder)}
+      </div>
+    `;
+    }
+
+    function renderProjectFolderBody(folder) {
+        const fileList = folder.contents.map((item) => `<li>${item}</li>`).join("");
+        return `
+      <div class="folder-body">
+        <div class="folder-body-header">
+          <div class="folder-body-path">C:\\Projects\\${folder.title}</div>
+          <div class="folder-body-meta">Under construction</div>
+        </div>
+        <p class="folder-body-text">
+          More photos, notes, and downloads live here. This folder view keeps the Win98
+          vibe until the full uploads ship.
+        </p>
+        <div class="folder-body-pane">
+          <div class="folder-body-icon">
+            <img src="${folder.icon}" alt="${folder.title}">
+            <span class="desktop-icon-label">${folder.title}</span>
+          </div>
+          <div class="folder-body-list">
+            <p>Incoming files:</p>
+            <ul>
+              ${fileList}
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
     }
 
     /* --------------------------------------------------
@@ -471,10 +670,22 @@
         if (!windowEl) return;
 
         if (maximizedWindows.has(targetId)) {
-            // Restore to centered defaults
             maximizedWindows.delete(targetId);
-            centerWindow(windowEl, windowEl.classList.contains("window--primary"));
+            const prev = windowRestoreState.get(targetId) || {};
+            windowEl.style.top = prev.top || "";
+            windowEl.style.left = prev.left || "";
+            windowEl.style.width = prev.width || "";
+            windowEl.style.height = prev.height || "";
+            windowEl.style.transform = prev.transform || "";
+            windowRestoreState.delete(targetId);
         } else {
+            windowRestoreState.set(targetId, {
+                top: windowEl.style.top,
+                left: windowEl.style.left,
+                width: windowEl.style.width,
+                height: windowEl.style.height,
+                transform: windowEl.style.transform,
+            });
             maximizedWindows.add(targetId);
             windowEl.style.top = "0";
             windowEl.style.left = "0";
