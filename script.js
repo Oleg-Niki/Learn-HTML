@@ -556,6 +556,9 @@
     }
 
     function renderProjectFolderBody(folder) {
+        if (folder.id === "engr230") {
+            return renderEngr230Project();
+        }
         const fileList = folder.contents.map((item) => `<li>${item}</li>`).join("");
         return `
       <div class="folder-body">
@@ -578,6 +581,103 @@
               ${fileList}
             </ul>
           </div>
+        </div>
+      </div>
+    `;
+    }
+
+    function renderEngr230Project() {
+        return `
+      <div class="folder-body folder-body--project">
+        <div class="folder-body-header">
+          <div class="folder-body-path">C:\\Projects\\Engr230\\TrussBridge</div>
+          <div class="folder-body-meta">Lightweight bridge | Tested FoS 2.18</div>
+        </div>
+
+        <div class="project-hero">
+          <div>
+            <h2 class="project-title">Truss Bridge — Engr 230 Statics</h2>
+            <p class="project-subtitle">24 cm span | Mass &lt; 10 g | Mid-span load 66 N (req.)</p>
+          </div>
+          <div class="stat-cards">
+            <div class="stat-card">
+              <span class="stat-label">Max Load</span>
+              <span class="stat-value">144 N</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">FoS (test)</span>
+              <span class="stat-value">2.18x</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Mass</span>
+              <span class="stat-value">&lt; 10 g</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-section-grid">
+          <section class="project-section">
+            <h3>Project Description</h3>
+            <p>Two-person build of a balsa truss that exceeds a 1.5 safety factor while staying under 10 g. Full cycle: sketch → simulate → build → test to failure.</p>
+            <ul class="project-bullets">
+              <li>Design for high strength-to-weight, bonus for non-standard geometry.</li>
+              <li>Capture load, deflection, and failure mode during testing.</li>
+              <li>Apply tension/compression design rules for slender members.</li>
+            </ul>
+          </section>
+
+          <section class="project-section">
+            <h3>Design Specs</h3>
+            <div class="spec-table" role="table">
+              <div class="spec-row"><span>Structure</span><span>Dual planar trusses + cross bracing</span></div>
+              <div class="spec-row"><span>Span</span><span>24 cm</span></div>
+              <div class="spec-row"><span>Height</span><span>10 cm max</span></div>
+              <div class="spec-row"><span>Clear width / height</span><span>3.5 cm / 3.5 cm</span></div>
+              <div class="spec-row"><span>Load case</span><span>66 N at mid-span (down)</span></div>
+              <div class="spec-row"><span>FoS target</span><span>&ge; 1.5</span></div>
+              <div class="spec-row"><span>Material</span><span>3.175 mm balsa, E = 2.55 GPa</span></div>
+              <div class="spec-row"><span>Strength</span><span>73 MPa tension / 6.9 MPa compression</span></div>
+              <div class="spec-row"><span>Design style</span><span>Pratt/Warren hybrid (non-standard)</span></div>
+            </div>
+          </section>
+
+          <section class="project-section">
+            <h3>Design Approach</h3>
+            <p>Compared Warren, Camelback, and Pratt, then chose a Pratt-inspired layout with Warren diagonals to shorten compression members and cut weight.</p>
+            <ul class="project-bullets">
+              <li>Few, short compression members to reduce buckling risk.</li>
+              <li>Straight load paths for predictable tension in the bottom chord.</li>
+              <li>Simple joints to minimize glue mass.</li>
+            </ul>
+          </section>
+
+          <section class="project-section">
+            <h3>Analysis & Simulation</h3>
+            <ul class="project-bullets">
+              <li>Modeled in JHU Truss Simulator; Method of Joints for all nodes.</li>
+              <li>Critical compression: top chords ~43 N; expected first buckle at mid-span.</li>
+              <li>Tension: bottom chord segments ~28 N; support verticals ~33 N.</li>
+              <li>Uniform member section (3.175 mm square) used for stress + FoS checks.</li>
+            </ul>
+          </section>
+
+          <section class="project-section">
+            <h3>Testing & Failure</h3>
+            <p>Instron 3369, 5 mm/min, mid-span loading. Max load 144 N → FoS 2.18. Failure was a top-chord compression buckle near mid-span, matching simulation.</p>
+            <ul class="project-bullets">
+              <li>Failure driver: slenderness + slight joint misalignment reducing buckling capacity.</li>
+              <li>Tension members remained intact; glue weight kept under spec.</li>
+            </ul>
+          </section>
+
+          <section class="project-section">
+            <h3>Appendix (calc highlights)</h3>
+            <ul class="project-bullets">
+              <li>FBD + joint-by-joint solutions; method of sections check at mid-panel.</li>
+              <li>Buckling calc on top chord using compressive strength 6.9 MPa.</li>
+              <li>Stress = F / A with A = 1.008e-5 m²; FoS = allowable / |stress|.</li>
+            </ul>
+          </section>
         </div>
       </div>
     `;

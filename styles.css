@@ -849,6 +849,10 @@ body {
     gap: 8px;
 }
 
+.folder-body--project {
+    gap: 12px;
+}
+
 .folder-body-header {
     display: flex;
     align-items: center;
@@ -890,6 +894,108 @@ body {
 .folder-body-list ul {
     margin: 0;
     padding-left: 16px;
+}
+
+.project-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid var(--win98-border-medium);
+    background: #f8f8f8;
+}
+
+.project-title {
+    margin: 0;
+    font-size: 16px;
+}
+
+.project-subtitle {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: #333333;
+}
+
+.stat-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+}
+
+.stat-card {
+    border: 1px solid var(--win98-border-medium);
+    background: #ffffff;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    box-shadow: inset 1px 1px 0 var(--win98-border-light);
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #333333;
+}
+
+.stat-value {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.project-section-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px;
+}
+
+@media (max-width: 640px) {
+    .project-hero {
+        padding: 6px;
+    }
+    .project-section-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.project-section {
+    border: 1px solid var(--win98-border-medium);
+    background: #ffffff;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.project-section h3 {
+    margin: 0;
+    font-size: 13px;
+}
+
+.project-bullets {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.spec-table {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.spec-row {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 6px;
+    padding: 4px 6px;
+    background: #f3f3f3;
+    border: 1px solid var(--win98-border-light);
+}
+
+.spec-row span:first-child {
+    font-weight: bold;
 }
 
 
